@@ -4,7 +4,7 @@ import Img from 'gatsby-image';
 
 export default ({data}) => {
     const teacher = data.teacher;
-  return <Container backdrop={data.backdrop.sizes}>
+  return <Container backdrop={teacher.backgroundImage.sizes}>
       <h1>{teacher.name}</h1>
       <Img sizes={teacher.profilePicture.sizes} />
     </Container>;
@@ -12,16 +12,15 @@ export default ({data}) => {
 
 export const query = graphql`
 query TeacherQuery($slug: String!) {
-    backdrop: contentfulAsset(title: {eq: "backdrop1"}) {
-            sizes(quality: 100 maxWidth: 5000) {
-             ...GatsbyContentfulSizes
-            }
-      }
-
     teacher: contentfulTeacher(fields: { slug: { eq: $slug } }) {
         name
         profilePicture {
             sizes(quality: 100) {
+                ...GatsbyContentfulSizes
+               }
+        }
+        backgroundImage {
+            sizes(quality: 100 maxWidth: 5000) {
                 ...GatsbyContentfulSizes
                }
         }
