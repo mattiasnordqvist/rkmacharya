@@ -1,13 +1,50 @@
 import React from 'react'
 import Link from 'gatsby-link'
+import Container from "../components/container"
 
-const IndexPage = () => (
-  <div>
+const IndexPage = ({data}) => {
+  return <Container backdrop={data.backdrop.childImageSharp.sizes}>
     <h1>Hi people</h1>
     <p>Welcome to your new Gatsby site.</p>
     <p>Now go build something great.</p>
     <Link to="/page-2/">Go to page 2</Link>
-  </div>
-)
+    {data.teachers.edges.map(({node}) => 
+    <div>
+      
+      <p><Link to={"/teacher/"+node.name.replace(/ /g,"_").toLowerCase()}>{node.name}</Link></p>  
+      <img src={node.profilePicture.file.url} height="100" width="100"/>
+      </div>
+    )}
+  </Container>
+}
 
 export default IndexPage
+
+export const query = graphql`
+  query indexQuery {
+    backdrop: file(relativePath: {eq: "backdrop1.jpg"}) {
+      childImageSharp {
+        sizes(quality: 100 maxWidth: 5000) {
+         ...GatsbyImageSharpSizes
+        }
+      }
+    }
+
+    teachers: allContentfulTeacher {
+      edges {
+        node {
+          id
+          name
+          profilePicture {
+            id
+            file {
+              url
+              fileName
+              contentType
+            }
+          }
+        }
+      }
+    }
+  }
+`

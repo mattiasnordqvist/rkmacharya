@@ -1,7 +1,42 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/node-apis/
- */
+const path = require('path')
 
- // You can delete this file if you're not using it
+exports.onCreateNode = ({ node, getNode, boundActionCreators }) => {
+    const { createNodeField } = boundActionCreators
+    if (node.internal.type === `ContentfulTeacher`) {
+      createNodeField({
+        node,
+        name: `slug`,
+        value: 'teacher/'+node.name.replace(/ /g,"_").toLowerCase(),
+      })
+    }
+  };
+
+  exports.createPages = ({ graphql, boundActionCreators }) => {
+    const { createPage } = boundActionCreators
+    return new Promise((resolve, reject) => {
+      graphql(`
+        {
+          allContentfulTeacher {
+            edges {
+              node {
+                fields {
+                  slug
+                }
+              }
+            }
+          }
+        }
+      `).then(result => {
+        result.data.allContentfulTeacher.edges.forEach(({ node }) => {
+          createPage({
+            path: node.fields.slug,
+            component: path.resolve(`./src/templates/teacher.js`),
+            context: {
+              slug: node.fields.slug,
+            },
+          })
+        })
+        resolve()
+      })
+    })
+  };
