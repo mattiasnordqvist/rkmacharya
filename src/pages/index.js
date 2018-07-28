@@ -3,7 +3,7 @@ import Link from 'gatsby-link'
 import Container from "../components/container"
 
 const IndexPage = ({data}) => {
-  return <Container backdrop={data.backdrop.childImageSharp.sizes}>
+  return <Container backdrop={data.backdrop.sizes}>
     <h1>Hi people</h1>
     <p>Welcome to your new Gatsby site.</p>
     <p>Now go build something great.</p>
@@ -22,11 +22,9 @@ export default IndexPage
 
 export const query = graphql`
   query indexQuery {
-    backdrop: file(relativePath: {eq: "backdrop1.jpg"}) {
-      childImageSharp {
-        sizes(quality: 100 maxWidth: 5000) {
-         ...GatsbyImageSharpSizes
-        }
+    backdrop: contentfulAsset(title: {eq: "backdrop1"}) {
+      sizes(quality: 100 maxWidth: 5000) {
+       ...GatsbyContentfulSizes
       }
     }
 
