@@ -3,8 +3,8 @@ import Link from 'gatsby-link'
 import Container from "../components/container"
 import Img from 'gatsby-image';
 
-const ClassCardPage = ({ data }) => {
-    return <Container backdrop={data.backdrop.sizes}>
+const AyurYogaTherapyPage = ({ data }) => {
+  return <Container backdrop={data.backdrop.sizes}>
     <div className="textblock">
       <h1>RKM Acharya Yoga</h1>
       <p>
@@ -20,14 +20,14 @@ const ClassCardPage = ({ data }) => {
         RKM Acharya Yoga is a holistic education that brings the student into health and harmony. It is suitable for anyone looking to balance and clear the body and mind, as well as anyone seeking to lead a life with full conscious awareness.
     </p>
     </div>
-    </Container>
+  </Container>
 }
 
-export default ClassCardPage
+export default AyurYogaTherapyPage
 
 export const query = graphql`
-  query originQuery {
-    backdrop: contentfulAsset(title: {eq: "backdrop1"}) {
+  query ayuryogatherapyQuery {
+    backdrop: contentfulAsset(title: {eq: "rkmacharya"}) {
       sizes(quality: 100 maxWidth: 2500) {
        ...GatsbyContentfulSizes_withWebp
       }

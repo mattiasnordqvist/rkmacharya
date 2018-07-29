@@ -1,31 +1,39 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
+import Link from 'gatsby-link'
 
-import Header from '../components/header'
 import './index.scss'
 
 const Layout = ({ children, data }) => (
-  <div style={{overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-    <Helmet
+  
+  <div id="container">
+  <Helmet
       title={data.siteTitle.siteMetadata.title}
       meta={[
         { name: 'description', content: 'r.k.m Acharya' },
         { name: 'keywords', content: 'acharya, yoga' },
       ]}
     />
-    <Header logo={data.logo.childImageSharp.resolutions} />
-    <div
-      style={{
-        padding: '0px 1.0875rem 1.45rem',
-        paddingTop: 100,
-        flexGrow: 1,
-        overflowY: 'auto',
-      }}
-    >
-      {children()}
-    </div>
-  </div>
+  <header>
+  <nav style={{display: 'flex', justifyContent: 'space-between' }}>
+       <div style={{display: 'inline'}}>
+         <Link to="/" style={{ fontWeight: '500', fontSize: '30px'}}>RKM Acharya</Link>
+       </div>
+       <div style={{display: 'inline', marginTop: 'auto'}}>
+         <Link to="/acharyaratheeshkmani" activeClassName="active">ACHARYA Ratheesh K. Mani</Link>
+         <Link to="/origin" activeClassName="active">Origin</Link>
+         <Link to="/rkmacharyayoga" activeClassName="active">RKM Acharya Yoga</Link>
+         <Link to="/layayogasystem" activeClassName="active">Laya Yoga System</Link>
+         <Link to="/ayuryogatherapy" activeClassName="active">Ayur Yoga Therapy</Link>
+         <Link to="/communities" activeClassName="active">Communities</Link>
+       </div>
+     </nav> 
+  </header>
+  <main>
+  {children()}
+  </main>
+</div>
 )
 
 Layout.propTypes = {

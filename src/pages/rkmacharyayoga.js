@@ -27,7 +27,7 @@ export default ClassCardPage
 
 export const query = graphql`
   query rkmacharyayogaQuery {
-    backdrop: contentfulAsset(title: {eq: "rkmacharyayoga"}) {
+    backdrop: contentfulAsset(title: {eq: "rkmacharya"}) {
       sizes(quality: 100 maxWidth: 2500) {
        ...GatsbyContentfulSizes_withWebp
       }
