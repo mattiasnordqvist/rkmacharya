@@ -6,7 +6,7 @@ exports.onCreateNode = ({ node, getNode, boundActionCreators }) => {
       createNodeField({
         node,
         name: `slug`,
-        value: 'teacher/'+node.name.replace(/ /g,"_").toLowerCase(),
+        value: 'teachers/'+node.name.replace(/ /g,"_").toLowerCase(),
       })
     }
   };

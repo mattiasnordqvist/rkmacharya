@@ -5,6 +5,7 @@ module.exports = {
     title: 'rkm Acharya',
   },
   plugins: [
+    `gatsby-plugin-sass`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
     {

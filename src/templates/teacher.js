@@ -16,12 +16,12 @@ query TeacherQuery($slug: String!) {
         name
         profilePicture {
             sizes(quality: 100) {
-                ...GatsbyContentfulSizes
+                ...GatsbyContentfulSizes_withWebp
                }
         }
         backgroundImage {
-            sizes(quality: 100 maxWidth: 5000) {
-                ...GatsbyContentfulSizes
+            sizes(quality: 100 maxWidth: 2500) {
+                ...GatsbyContentfulSizes_withWebp
                }
         }
     }

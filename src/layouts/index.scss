@@ -1,0 +1,59 @@
+$primary-color: #f7941e;
+
+a {
+    font-family: Open Sans;
+    font-weight: 300;
+    font-style: normal;
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    line-height: 1em;
+    color: white;
+    transition-duration: 0.7s;
+
+    &:hover {
+        color: $primary-color;
+        letter-spacing: 4px;
+        transition-duration: 0.7s;
+    }
+
+    &.active {
+        color: $primary-color;
+        letter-spacing: 4px;
+    }
+}
+
+
+
+nav a {
+    padding: 1em;
+}
+
+.textblock {
+    padding: 5em;
+    background-color: rgba(255, 255, 255, 0.9);
+
+    h1 {
+        padding-bottom: 1.2em;
+        font-family: Open Sans;
+        font-style: normal;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-decoration: none;
+        line-height: 1em;
+        color: #f7941e;
+        font-weight: 500;
+        font-size: 30px;
+    }
+
+    p {
+        padding-bottom: 1em;
+        font-family: Open Sans;
+        font-style: normal;
+        text-decoration: none;
+        line-height: 1.5em;
+        font-weight: 500;
+        font-size: 21px;
+    }
+}

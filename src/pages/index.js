@@ -5,13 +5,19 @@ import Img from 'gatsby-image';
 
 const IndexPage = ({data}) => {
   return <Container backdrop={data.backdrop.sizes}>
-    {data.teachers.edges.map(({node}) => 
-    <div>
-      
-      <p><Link to={"/teacher/"+node.name.replace(/ /g,"_").toLowerCase()}>{node.name}</Link></p>  
-      <Img sizes={node.profilePicture.sizes} />
-      </div>
-    )}
+    <h1 style={{
+          display: 'block',
+          textTransform: 'uppercase',
+          lineHeight: '1.8em',
+          color: '#fff',
+          letterSpacing: '0.0517241em',
+          textAlign: 'center',
+          fontWeight: '600',
+          fontStyle: 'normal',
+          fontSize: '58px'
+    }}>
+      Merging of the universal soul into a human body is Yoga
+    </h1>
   </Container>
 }
 
@@ -19,23 +25,9 @@ export default IndexPage
 
 export const query = graphql`
   query indexQuery {
-    backdrop: contentfulAsset(title: {eq: "backdrop1"}) {
+    backdrop: contentfulAsset(title: {eq: "rkmacharya"}) {
       sizes(quality: 100 maxWidth: 5000) {
-       ...GatsbyContentfulSizes
-      }
-    }
-
-    teachers: allContentfulTeacher {
-      edges {
-        node {
-          id
-          name
-          profilePicture {
-            sizes(quality: 100) {
-              ...GatsbyContentfulSizes
-             }
-          }
-        }
+       ...GatsbyContentfulSizes_withWebp
       }
     }
   }

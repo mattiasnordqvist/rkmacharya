@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 
 import Header from '../components/header'
-// import './index.css'
+import './index.scss'
 
 const Layout = ({ children, data }) => (
-  <div style={{overflow: 'hidden'}}>
+  <div style={{overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
     <Helmet
       title={data.siteTitle.siteMetadata.title}
       meta={[
@@ -17,10 +17,10 @@ const Layout = ({ children, data }) => (
     <Header logo={data.logo.childImageSharp.resolutions} />
     <div
       style={{
-        margin: '0 auto',
-        maxWidth: 960,
         padding: '0px 1.0875rem 1.45rem',
         paddingTop: 100,
+        flexGrow: 1,
+        overflowY: 'auto',
       }}
     >
       {children()}
@@ -45,7 +45,7 @@ export const query = graphql`
     logo: file(relativePath: {eq: "logo.png"}) {
       childImageSharp {
         resolutions(height: 38, width: 100, quality: 100) {
-         ...GatsbyImageSharpResolutions
+         ...GatsbyImageSharpResolutions_withWebp
         }
       }
     }

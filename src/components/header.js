@@ -4,47 +4,49 @@ import Img from 'gatsby-image'
 import Link from 'gatsby-link'
 
 const Header = ({ logo }) => {
-  const ListLink = props =>
-  <li style={{ display: `inline-block`, marginRight: `1rem` }}>
-    <Link to={props.to}>
-      {props.children}
-    </Link>
-  </li>
-
-  return <header style={{   
-    margin: '0 auto',
-    maxWidth: 960,
+  return <header style={{
+    // margin: '0 auto',
     padding: '1.45rem 1.0875rem',
-    marginBottom: `1.5rem`, }}>
-  <Link to="/" >
-    <h3 style={{ display: `inline` }}><Img sizes={logo} /></h3>
-  </Link>
-  <ul style={{ listStyle: `none`, float: `right` }}>
-    <ListLink to="/">Home</ListLink>
-    <ListLink to="/about/">About</ListLink>
-    <ListLink to="/contact/">Contact</ListLink>
-  </ul>
-</header>
-  
-  // <div>
-  //   
-  // </div>
+    flexShrink: 0,
+  }}>
+    <nav style={{display: 'flex', justifyContent: 'space-between'}}>
+      {/* <Img sizes={logo} /> */}
+      <div style={{display: 'inline'}}>
+        <Link to="/" style={{ fontWeight: '500', fontSize: '30px'}}>RKM Acharya</Link>
+      </div>
+      <div style={{display: 'inline', marginTop: 'auto'}}>
+        <Link to="/acharyaratheeshkmani" activeClassName="active">ACHARYA Ratheesh K. Mani</Link>
+        <Link to="/origin" activeClassName="active">Origin</Link>
+        <Link to="/rkmacharyayoga" activeClassName="active">RKM Acharya Yoga</Link>
+        <Link to="/layayogasystem" activeClassName="active">Laya Yoga System</Link>
+        <Link to="/ayuryogatherapy" activeClassName="active">Ayur Yoga Therapy</Link>
+        <Link to="/communities" activeClassName="active">Communities</Link>
+      </div>
+      {/* <Link to="/teachers">Lärare</Link>
+      <Link to="/classcard">Klippkort</Link> */}
+    </nav>
+    {/* <h2 style={{ margin: '0 -9999rem', padding: '0.25rem 9999rem' }}>
 
-  // <div
-  //   style={{
-  //     marginBottom: '1.45rem',
-  //   }}
-  // >
-  //   <div
-  //     style={{
-  //       margin: '0 auto',
-  //       maxWidth: 960,
-  //       padding: '1.45rem 1.0875rem',
-  //     }}
-  //   >
-  //    <Img resolutions={logo} />
-  //   </div>
-  // </div>
+      <ul style={{ display: 'block', listStyle: `none`, float: `right` }}>
+        <li style={{ display: `inline-block`, marginRight: `1rem` }}>
+          <Link to="/">
+          <Img sizes={logo} />
+                    </Link>
+        </li>
+        <li style={{ display: `inline-block`, marginRight: `1rem` }}>
+          <Link to="/teachers">
+            Lärare    
+          </Link>
+        </li>
+        <li style={{ display: `inline-block`, marginRight: `1rem` }}>
+          <Link to="/classcard">
+            Klippkort
+          </Link>
+        </li>
+
+      </ul>
+    </h2> */}
+  </header>
 }
 
 export default Header
