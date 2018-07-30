@@ -30,7 +30,7 @@ const Layout = ({ children, data }) => (
        </div>
      </nav> 
   </header>
-  <main>
+  <main id="main">
   {children()}
   </main>
 </div>

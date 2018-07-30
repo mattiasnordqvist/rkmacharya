@@ -1,9 +1,18 @@
 $primary-color: #f7941e;
 
-html, body {margin: 0; height: 100%} 
+html, body {
+    margin: 0; 
+    height: 100%;
+    overflow: hidden;
+} 
+
+body {
+    overflow: hidden;
+}
 
 #___gatsby {
     height:  100%;
+    overflow: hidden;
 }
 
 #container {
@@ -28,6 +37,12 @@ main {
     padding: '0px 1.0875rem 1.45rem';
 }
 
+#scrollcontainer {
+    height: 100%;
+    width:100%;
+    overflow-y: scroll;
+    box-sizing: content-box;
+}
 a {
     font-family: Open Sans;
     font-weight: 300;

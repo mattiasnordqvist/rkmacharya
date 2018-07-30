@@ -16,15 +16,15 @@ class Container extends React.Component {
                 this.setState({scrollTop: this.refs.nv.scrollTop-500});
             }
         });
+        var parent = document.getElementById('main');
+        var child = document.getElementById('scrollcontainer');
+        child.style.paddingRight = child.offsetWidth - child.clientWidth + "px";
     }
 
     render(){
         const backdrop = this.props.backdrop;
 
-        return (<div ref="nv" style={{
-            height: '100%',
-            overflow: 'auto'
-        }}>
+        return (<div id="scrollcontainer" ref="nv">
             <Img className="test" sizes={backdrop}   
             style={{
                 position: "fixed",
