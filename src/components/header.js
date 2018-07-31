@@ -18,7 +18,7 @@ const Header = () => {
      </nav>  */}
     <nav style={{display: 'flex', justifyContent: 'space-between' }}>
         <div style={{display: 'inline', flex: '1'}}>
-         <Link to="/" style={{ fontWeight: '500', fontSize: '2em'}}>RKM Acharya</Link>
+         <Link to="/" style={{ fontWeight: '500', fontSize: '16px'}}>RKM Acharya</Link>
        </div>
         <div id="menuToggle" style={{display: 'inline', marginTop: 'auto'}}>
             <input type="checkbox" />

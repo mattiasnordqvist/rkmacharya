@@ -7,7 +7,7 @@ const IndexPage = ({data}) => {
   return <Container backdrop={data.backdrop.sizes}>
     <span className="quote"
      style={{    
-        paddingTop: '171px',
+        paddingTop: '20%',
     }}
     >“</span>
     <h1 style={{
@@ -19,7 +19,7 @@ const IndexPage = ({data}) => {
           textAlign: 'center',
           fontWeight: '600',
           fontStyle: 'normal',
-          fontSize: '58px',
+          fontSize: '30px',
           fontFamily: 'Times'
 
     }}>
