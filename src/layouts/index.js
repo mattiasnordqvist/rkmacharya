@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import Link from 'gatsby-link'
-
+import Header from '../components/header';
 import './index.scss'
 
 const Layout = ({ children, data }) => (
@@ -15,21 +15,7 @@ const Layout = ({ children, data }) => (
         { name: 'keywords', content: 'acharya, yoga' },
       ]}
     />
-  <header>
-  <nav style={{display: 'flex', justifyContent: 'space-between' }}>
-       <div style={{display: 'inline'}}>
-         <Link to="/" style={{ fontWeight: '500', fontSize: '30px'}}>RKM Acharya</Link>
-       </div>
-       <div style={{display: 'inline', marginTop: 'auto'}}>
-         <Link to="/acharyaratheeshkmani" activeClassName="active">ACHARYA Ratheesh K. Mani</Link>
-         <Link to="/origin" activeClassName="active">Origin</Link>
-         <Link to="/rkmacharyayoga" activeClassName="active">RKM Acharya Yoga</Link>
-         <Link to="/layayogasystem" activeClassName="active">Laya Yoga System</Link>
-         <Link to="/ayuryogatherapy" activeClassName="active">Ayur Yoga Therapy</Link>
-         <Link to="/communities" activeClassName="active">Communities</Link>
-       </div>
-     </nav> 
-  </header>
+  <Header></Header>
   <main id="main">
   {children()}
   </main>

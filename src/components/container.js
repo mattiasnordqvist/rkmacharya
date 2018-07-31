@@ -11,11 +11,13 @@ class Container extends React.Component {
     componentDidMount(){
         this.refs.nv.addEventListener('scroll', (event) => {
             console.log(this.refs.nv.scrollTop);
-            if(this.refs.nv.scrollTop > 500 &&  this.refs.nv.scrollTop < 1500)
+            if(this.refs.nv.scrollTop > 100)
             {
-                this.setState({scrollTop: this.refs.nv.scrollTop-500});
+                this.setState({scrollTop: ((this.refs.nv.scrollTop-100)/2)});
             }
         });
+        
+        /* hides scrollbar */
         var parent = document.getElementById('main');
         var child = document.getElementById('scrollcontainer');
         child.style.paddingRight = child.offsetWidth - child.clientWidth + "px";
