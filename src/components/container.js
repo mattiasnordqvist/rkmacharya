@@ -27,16 +27,20 @@ class Container extends React.Component {
         const backdrop = this.props.backdrop;
 
         return (<div id="scrollcontainer" ref="nv">
-            <Img className="test" sizes={backdrop}   
-            style={{
+        <div   style={{
                 position: "fixed",
                 left: 0,
                 top: 0- this.state.scrollTop,
                 width: "100%",
                 height: "100%",
-                zIndex: -100
+                zIndex: -100,
+            }}>
+            <Img className="test" sizes={backdrop} 
+             style={{
+                width: "100%",
+                // zIndex: -100,
             }}/>
-            
+            </div>
             <div className="centerizer">
                 {this.props.children}
             </div>
