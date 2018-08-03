@@ -19,7 +19,7 @@ export default TeachersPage
 
 export const query = graphql`
   query TeachersPageQuery {
-    backdrop: contentfulAsset(title: {eq: "backdrop1"}) {
+    backdrop: contentfulAsset(title: {eq: "rkmacharya_1"}) {
       sizes(quality: 100 maxWidth: 5000) {
        ...GatsbyContentfulSizes_withWebp
       }
