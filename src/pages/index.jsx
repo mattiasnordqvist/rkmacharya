@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Link from 'gatsby-link'
-import Container from "../components/container"
 import Img from 'gatsby-image';
 import Content from "../components/content/content"
 import styles from './index.module.scss'
