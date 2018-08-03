@@ -16,16 +16,16 @@ class Container extends React.Component {
             }
         });
         
-        /* hides scrollbar */
-        var parent = document.getElementById('main');
-        var child = document.getElementById('scrollcontainer');
-        child.style.paddingRight = child.offsetWidth - child.clientWidth + "px";
+        // /* hides scrollbar */
+        // var parent = document.getElementById('main');
+        // var child = document.getElementById('scrollcontainer');
+        // child.style.paddingRight = child.offsetWidth - child.clientWidth + "px";
     }
 
     render(){
         const backdrop = this.props.backdrop;
 
-        return (<div id="scrollcontainer" ref="nv">
+        return (<div ref="nv">
 
             <Img  style={{
                 position: "fixed",
