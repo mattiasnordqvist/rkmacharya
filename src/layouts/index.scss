@@ -20,11 +20,18 @@ body, html, #___gatsby, #mycode, main, .page-root {
     right: 0;
     background-size: cover;
     background-position: center;
-    background-attachment: scroll;
+    background-attachment: fixed;
     background-color: #000000;
     background-repeat: no-repeat;
 }
 
+@supports (-webkit-overflow-scrolling: touch) {
+    /* CSS specific to iOS devices */ 
+    .cover-image {
+        background-attachment: scroll;
+    }
+  }
+  
 
 // MEDIA QUERY TEMPLATES
 // Extra small devices (portrait phones, less than 576px)
