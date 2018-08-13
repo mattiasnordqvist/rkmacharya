@@ -28,18 +28,35 @@ class IndexPage extends React.Component {
         </Content>
         <Content>
           <div className={styles.ec}>
-            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} /></div>
-            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} /></div>
-            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} /></div>
-            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} /></div>
-            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} /></div>
-            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} /></div>
-            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} /></div>
-            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} /></div>
-            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} /></div>
-            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} /></div>
-            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} /></div>
-            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} /></div>
+            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} />
+              <p className={styles.eh}>KAMPANJPRIS KLIPPKORT T.O.M. 16 SEPTEMBER</p>
+              <p className={styles.et}>Låt sinnet påminnas om förstagångseurofin, varje gång du landar på mattan. Våra "Always a student" kampanjer stöter du därför på flera gånger per år.</p>
+            </div>
+            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} />
+              <p className={styles.eh}>KAMPANJPRIS KLIPPKORT T.O.M. 16 SEPTEMBER</p>
+              <p className={styles.et}>Låt sinnet påminnas om förstagångseurofin, varje gång du landar på mattan. Våra "Always a student" kampanjer stöter du därför på flera gånger per år.</p>
+            </div>
+            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} />
+              <p className={styles.eh}>KAMPANJPRIS KLIPPKORT T.O.M. 16 SEPTEMBER</p>
+              <p className={styles.et}>Låt sinnet påminnas om förstagångseurofin, varje gång du landar på mattan. Våra "Always a student" kampanjer stöter du därför på flera gånger per år.</p>
+            </div>
+            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} />
+              <p className={styles.eh}>KAMPANJPRIS KLIPPKORT T.O.M. 16 SEPTEMBER</p>
+              <p className={styles.et}>Låt sinnet påminnas om förstagångseurofin, varje gång du landar på mattan. Våra "Always a student" kampanjer stöter du därför på flera gånger per år.</p>
+            </div>
+            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} />
+              <p className={styles.eh}>KAMPANJPRIS KLIPPKORT T.O.M. 16 SEPTEMBER</p>
+              <p className={styles.et}>Låt sinnet påminnas om förstagångseurofin, varje gång du landar på mattan. Våra "Always a student" kampanjer stöter du därför på flera gånger per år.</p>
+            </div>
+            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} />
+              <p className={styles.eh}>KAMPANJPRIS KLIPPKORT T.O.M. 16 SEPTEMBER</p>
+              <p className={styles.et}>Låt sinnet påminnas om förstagångseurofin, varje gång du landar på mattan. Våra "Always a student" kampanjer stöter du därför på flera gånger per år.</p>
+            </div>
+            <div className={styles.e}><Img sizes={data.rkmay_class_erika_erlando.sizes} />
+              <p className={styles.eh}>KAMPANJPRIS KLIPPKORT T.O.M. 16 SEPTEMBER</p>
+              <p className={styles.et}>Låt sinnet påminnas om förstagångseurofin, varje gång du landar på mattan. Våra "Always a student" kampanjer stöter du därför på flera gånger per år.</p>
+            </div>
+            
           </div>
         </Content>
         <div className='cover-image' style={{ backgroundImage: 'url("' + data.rkmacharya_2.file.url + '")' }}>

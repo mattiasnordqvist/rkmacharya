@@ -2,7 +2,7 @@
     color: #777;
     background-color: white;
     text-align: center;
-    padding: 50px 80px;
+    padding: 50px 10px;
     display: grid;
     grid-template-columns: 1fr;
     background-color: white;
@@ -14,6 +14,12 @@
         letter-spacing: 10px;
         text-align: center;
 
+    }
+}
+
+@media (min-width: 576px) {
+    .content {
+        padding: 50px 80px;
     }
 }
 
