@@ -1,42 +1,28 @@
-const path = require('path')
+var {google} = require('googleapis');
 
-exports.onCreateNode = ({ node, getNode, boundActionCreators }) => {
-    // const { createNodeField } = boundActionCreators
-    // if (node.internal.type === `ContentfulTeacher`) {
-    //   createNodeField({
-    //     node,
-    //     name: `slug`,
-    //     value: 'teachers/'+node.name.replace(/ /g,"_").toLowerCase(),
-    //   })
-    // }
-  };
+var key = process.env.service_account || require('./.service-account.json');
+const SCOPES = 'https://www.googleapis.com/auth/calendar';
 
-  exports.createPages = ({ graphql, boundActionCreators }) => {
-    // const { createPage } = boundActionCreators
-    // return new Promise((resolve, reject) => {
-    //   graphql(`
-    //     {
-    //       allContentfulTeacher {
-    //         edges {
-    //           node {
-    //             fields {
-    //               slug
-    //             }
-    //           }
-    //         }
-    //       }
-    //     }
-    //   `).then(result => {
-    //     result.data.allContentfulTeacher.edges.forEach(({ node }) => {
-    //       createPage({
-    //         path: node.fields.slug,
-    //         component: path.resolve(`./src/templates/teacher.js`),
-    //         context: {
-    //           slug: node.fields.slug,
-    //         },
-    //       })
-    //     })
-    //     resolve()
-    //   })
-    // })
-  };
+var auth = new google.auth.JWT(
+    key.client_email,
+    null,
+    key.private_key,
+    SCOPES,
+    '785650218980-ghj362fpfb26mpiiblj9bvmpeimd30qh@developer.gserviceaccount.com'
+);
+
+const api = google.calendar({version : "v3", auth : auth});
+const calendarId = 'lvvofmbvneim36p293m8e00qbk@group.calendar.google.com';
+
+
+
+exports.createPages = async ({ actions: { createPage } }) => {
+
+    var test = await api.events.list({calendarId : calendarId});
+    console.log(test.data.items);
+    createPage({
+      path: `/events`,
+      component: require.resolve("./src/templates/events.js"),
+      context: {events: test.data.items},
+    })
+  }
