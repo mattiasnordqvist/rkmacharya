@@ -8,7 +8,6 @@ try{
     key.private_key = process.env.PRIVATE_KEY.replace(/\\n/g, '\n');
 }
 const SCOPES = 'https://www.googleapis.com/auth/calendar';
-console.log(key);
 var auth = new google.auth.JWT(
     key.client_email,
     null,
@@ -24,7 +23,7 @@ const calendarId = 'lvvofmbvneim36p293m8e00qbk@group.calendar.google.com';
 
 exports.createPages = async ({ actions: { createPage } }) => {
 
-    var test = await api.events.list({calendarId : calendarId});
+    var test = await api.events.list({calendarId : calendarId, singleEvents: true });
     createPage({
       path: `/events`,
       component: require.resolve("./src/templates/events.js"),
