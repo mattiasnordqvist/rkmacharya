@@ -5,7 +5,7 @@ try{
     key = require('./.service-account.json');
 }catch(e){
     key.client_email = process.env.CLIENT_EMAIL;
-    key.private_key = process.env.PRIVATE_KEY;
+    key.private_key = process.env.PRIVATE_KEY.replace(/\\n/g, '\n');
 }
 const SCOPES = 'https://www.googleapis.com/auth/calendar';
 console.log(key);
