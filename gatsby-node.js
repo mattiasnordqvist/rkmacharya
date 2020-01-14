@@ -25,7 +25,7 @@ exports.createPages = async ({ actions: { createPage } }) => {
     var today = new Date();
     today.setHours(0,0,0,0);
     nextYear = new Date();
-    nextYear.setFullYear(nextYear.getFullYear() + 1)
+    nextYear.setDate(nextYear.getDate()+14);
     var response = await api.events.list({calendarId : calendarId, singleEvents: true, timeMin: today.toISOString(), timeMax: nextYear.toISOString(), maxResults: 1000 });
     var events = response.data.items.sort((a,b) => Date.parse(a.start.dateTime) - Date.parse(b.start.dateTime));
     console.log(response.data.items.length);
