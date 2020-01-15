@@ -45,11 +45,11 @@ body, html {
 }
 .caption {
   position: absolute;
-  left: 0;
-   top: 50%;
-  width: 100%;
+  left: 20%;
+  top: 20%;
+  /* width: 100%; */
   text-align: center;
-  /* background-color: #111; */
+  background-color: #111;
   color: #fff;
   font-size: 25px;
   letter-spacing: 10px;

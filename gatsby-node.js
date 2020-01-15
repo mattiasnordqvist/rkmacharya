@@ -21,7 +21,13 @@ const databaseId = '1h4eN34FuxY7ld9L83RjBzPfa7iLX0NsX8Q96aDdHWBI';
 const api = google.calendar({version : "v3", auth: auth});
 const calendarId = 'lvvofmbvneim36p293m8e00qbk@group.calendar.google.com';
 
-
+var find = function(what, where)
+{
+    return (where || "")
+        .split("\n")
+        .filter(x => x.trim().startsWith(what+":"))
+        .map(x => x.trim().substring(2).trim()).shift();
+}
 
 exports.createPages = async ({ actions: { createPage } }) => {
 
@@ -34,12 +40,23 @@ exports.createPages = async ({ actions: { createPage } }) => {
     var events = [];
     await Promise.all(calendarsResponse.data.values.map(async cdata => {
         var response = await api.events.list({calendarId : cdata[1], singleEvents: true, timeMin: from.toISOString(), timeMax: to.toISOString(), maxResults: 1000 });
-        events = events.concat(response.data.items);
+        events = events.concat(response.data.items.map(x => ({
+            teacher: find('S',x.description) || cdata[0],
+            start: x.start.dateTime,
+            end: x.end.dateTime,
+            summary: x.summary,
+            address: x.location,
+            location: find('L',x.description),
+            substitute: !!find('S',x.description),
+            client: find('C',x.description),
+        })));
     }));
-    events = events.sort((a,b) => Date.parse(a.start.dateTime) - Date.parse(b.start.dateTime));
+    events = events.sort((a,b) => Date.parse(a.start) - Date.parse(b.start));
+    
     createPage({
       path: `/events`,
       component: require.resolve("./src/templates/events.js"),
       context: {events: events},
     });
   }
+

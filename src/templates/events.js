@@ -1,5 +1,8 @@
 import React from "react"
 import logo from "../images/logo.jpg" 
+
+const days = ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'];
+
 export default ({ pageContext: { events } }) => (
   <div>
     <div className="header">
@@ -13,7 +16,9 @@ export default ({ pageContext: { events } }) => (
        return (<div className="bgimg-3 day scroll">
         <div className="caption">
           <span className="border">
-            {x.start.dateTime} - {x.summary} - {x.description}
+            <h1>{x.summary} - <a href={`https://maps.google.com/?q=${x.address}`}>{x.location}</a></h1>
+            <h2>{x.teacher}</h2>
+            <p>{days[new Date(x.start).getDay()]} {new Date(x.start).toLocaleTimeString('sv-SE', {hour: '2-digit', minute:'2-digit', hour12: false})} - {new Date(x.end).toLocaleTimeString('sv-SE', {hour: '2-digit', minute:'2-digit', hour12: false})}</p>
           </span>
         </div>
      </div>);
@@ -22,7 +27,9 @@ export default ({ pageContext: { events } }) => (
       return (<div className="bgimg-2 day scroll">
         <div className="caption">
           <span className="border">
-            {x.start.dateTime} - {x.summary} - {x.description}
+            <h1>{x.summary} - <a href={`https://maps.google.com/?q=${x.address}`}>{x.location}</a></h1>
+            <h2>{x.teacher}</h2>
+            <p>{days[new Date(x.start).getDay()]} {new Date(x.start).toLocaleTimeString('sv-SE', {hour: '2-digit', minute:'2-digit', hour12: false})} - {new Date(x.end).toLocaleTimeString('sv-SE', {hour: '2-digit', minute:'2-digit', hour12: false})}</p>
           </span>
         </div>
      </div>);
