@@ -2,26 +2,26 @@ import React from "react"
 import logo from "../images/logo.jpg" 
 export default ({ pageContext: { events } }) => (
   <div>
-    <div class="header">
-      <div class ="header2">
-        <img src={logo} class="logo" />
+    <div className="header">
+      <div className="header2">
+        <img src={logo} className="logo" />
       </div>
     </div>
-    <div class="somemargin"></div>
+    <div className="somemargin"></div>
     {events.map(x => {
       if(x.summary.toLowerCase().includes("laya")){
-       return (<div class="bgimg-3 day scroll">
-        <div class="caption">
-          <span class="border">
+       return (<div className="bgimg-3 day scroll">
+        <div className="caption">
+          <span className="border">
             {x.start.dateTime} - {x.summary} - {x.description}
           </span>
         </div>
      </div>);
     }
     else{
-      return (<div class="bgimg-2 day scroll">
-        <div class="caption">
-          <span class="border">
+      return (<div className="bgimg-2 day scroll">
+        <div className="caption">
+          <span className="border">
             {x.start.dateTime} - {x.summary} - {x.description}
           </span>
         </div>
