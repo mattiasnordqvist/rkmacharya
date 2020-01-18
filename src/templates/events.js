@@ -17,6 +17,7 @@ export default ({ pageContext: { events } }) => (
         <div className="caption">
           <span className="border">
             <h1>{x.summary} - <a href={`https://maps.google.com/?q=${x.address}`}>{x.client} {x.location}</a></h1>
+            {x.cancelled && <h1>Cancelled :(</h1>}
             <h2>{x.teacher}</h2>
             <p>{days[new Date(x.start).getDay()]} {new Date(x.start).toLocaleTimeString('sv-SE', {hour: '2-digit', minute:'2-digit', hour12: false})} - {new Date(x.end).toLocaleTimeString('sv-SE', {hour: '2-digit', minute:'2-digit', hour12: false})}</p>
           </span>
@@ -28,6 +29,7 @@ export default ({ pageContext: { events } }) => (
         <div className="caption">
           <span className="border">
             <h1>{x.summary} - <a href={`https://maps.google.com/?q=${x.address}`}>{x.client} {x.location}</a></h1>
+            {x.cancelled && <h1>Cancelled :(</h1>}
             <h2>{x.teacher}</h2>
             <p>{days[new Date(x.start).getDay()]} {new Date(x.start).toLocaleTimeString('sv-SE', {hour: '2-digit', minute:'2-digit', hour12: false})} - {new Date(x.end).toLocaleTimeString('sv-SE', {hour: '2-digit', minute:'2-digit', hour12: false})}</p>
           </span>
