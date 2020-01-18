@@ -38,7 +38,7 @@ exports.createPages = async ({ actions: { createPage } }) => {
     var from = new Date();
     from.setHours(0,0,0,0);
     var to = new Date();
-    to.setDate(to.getDate()+14);
+    to.setDate(to.getDate()+28);
     var events = [];
     await Promise.all(calendarsResponse.data.values.map(async cdata => {
         var response = await api.events.list({calendarId : cdata[1], singleEvents: true, timeMin: from.toISOString(), timeMax: to.toISOString(), maxResults: 1000 });
@@ -51,10 +51,8 @@ exports.createPages = async ({ actions: { createPage } }) => {
             location: find('L',x.description),
             substitute: !!find('S',x.description),
             client: find('C',x.description),
-        })))
-            .filter(x => clients.some(c => c.name == x.client));
+        }))).filter(x => clients.some(c => c.name == x.client));
     }));
-    console.log(events);
     events = events.sort((a,b) => Date.parse(a.start) - Date.parse(b.start));
     
     createPage({
