@@ -32,7 +32,9 @@ var find = function(what, where)
 exports.createPages = async ({ actions: { createPage } }) => {
 
     var calendarsResponse = await sheetsApi.spreadsheets.values.get({spreadsheetId: databaseId, range: 'Calendars!A2:B'});
+    var clientsResponse = await sheetsApi.spreadsheets.values.get({spreadsheetId: databaseId, range: 'Clients!A2:P'});
 
+    var clients = clientsResponse.data.values.map(x => ({name: x[0]}));
     var from = new Date();
     from.setHours(0,0,0,0);
     var to = new Date();
@@ -49,8 +51,10 @@ exports.createPages = async ({ actions: { createPage } }) => {
             location: find('L',x.description),
             substitute: !!find('S',x.description),
             client: find('C',x.description),
-        })));
+        })))
+            .filter(x => clients.some(c => c.name == x.client));
     }));
+    console.log(events);
     events = events.sort((a,b) => Date.parse(a.start) - Date.parse(b.start));
     
     createPage({
