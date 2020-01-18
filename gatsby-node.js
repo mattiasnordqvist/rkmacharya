@@ -32,9 +32,9 @@ var find = function(what, where)
 exports.createPages = async ({ actions: { createPage } }) => {
 
     var calendarsResponse = await sheetsApi.spreadsheets.values.get({spreadsheetId: databaseId, range: 'Calendars!A2:B'});
-    var clientsResponse = await sheetsApi.spreadsheets.values.get({spreadsheetId: databaseId, range: 'Clients!A2:P'});
+    var clientsResponse = await sheetsApi.spreadsheets.values.get({spreadsheetId: databaseId, range: 'PublicSchedule!A2:B'});
 
-    var clients = clientsResponse.data.values.map(x => ({name: x[0]}));
+    var clients = clientsResponse.data.values.map(x => ({name: x[0], publicName: x[1]}));
     var from = new Date();
     from.setHours(0,0,0,0);
     var to = new Date();
@@ -43,15 +43,17 @@ exports.createPages = async ({ actions: { createPage } }) => {
     await Promise.all(calendarsResponse.data.values.map(async cdata => {
         var response = await api.events.list({calendarId : cdata[1], singleEvents: true, timeMin: from.toISOString(), timeMax: to.toISOString(), maxResults: 1000 });
         events = events.concat(response.data.items.map(x => ({
-            teacher: find('S',x.description) || cdata[0],
+            teacher: find('S', x.description) || cdata[0],
             start: x.start.dateTime,
             end: x.end.dateTime,
             summary: x.summary,
             address: x.location,
-            location: find('L',x.description),
-            substitute: !!find('S',x.description),
-            client: find('C',x.description),
-        }))).filter(x => clients.some(c => c.name == x.client));
+            location: find('L', x.description),
+            substitute: !!find('S', x.description),
+            client: clients.find(c => c.name == find('C', x.description)) ? clients.find(c => c.name == find('C', x.description)).publicName : null,
+            cancelled: find('I', x.description)
+        })))
+        .filter(x => !!x.client);
     }));
     events = events.sort((a,b) => Date.parse(a.start) - Date.parse(b.start));
     
