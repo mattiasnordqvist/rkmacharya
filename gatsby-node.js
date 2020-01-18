@@ -19,7 +19,6 @@ const sheetsApi = google.sheets({version: "v4", auth: auth});
 const databaseId = '1h4eN34FuxY7ld9L83RjBzPfa7iLX0NsX8Q96aDdHWBI';
 
 const api = google.calendar({version : "v3", auth: auth});
-const calendarId = 'lvvofmbvneim36p293m8e00qbk@group.calendar.google.com';
 
 var find = function(what, where)
 {
