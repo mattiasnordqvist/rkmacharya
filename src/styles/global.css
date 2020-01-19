@@ -11,3 +11,34 @@ body {
     background-color: white;
     border: 1px solid black;
 }
+.asdf-enter {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  .asdf-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 300ms, transform 300ms;
+  }
+  .asdf-enter-done {
+    opacity: 1;
+  }
+  .asdf-exit {
+    opacity: 1;
+  }
+  .asdf-exit-active {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 300ms, transform 300ms;
+  }
+  .asdf-exit-done {
+    opacity: 0;
+  }
+  
+
+
+/* // defaultStyle={{ opacity: 1, height:150, marginTop:10 }}
+// enterStyle={{ opacity: transit(0, 500, "ease-in-out"), height: transit(0, 500, "ease-in-out"), marginTop: transit(10, 50, "ease-in-out")}}
+// leaveStyle={{ opacity: transit(1.0, 500, "ease-in-out"), height: transit(150, 500, "ease-in-out"), marginTop: transit(0, 50, "ease-in-out") }}
+// activeStyle={{ opacity: 0, height: 0, marginTop:0 }}
+// active={!event.visible} */

@@ -2,7 +2,7 @@ import React from "react"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-import { CSSTransition, transit } from "react-css-transition";
+import { CSSTransition } from "react-transition-group";
 
 const days = [
   "Monday",
@@ -26,13 +26,7 @@ const uniques = function(arr) {
 
 function Event({ event }) {
   return (
-    <CSSTransition
-      defaultStyle={{ opacity: 1, height:150, marginTop:10 }}
-      enterStyle={{ opacity: transit(0, 500, "ease-in-out"), height: transit(0, 500, "ease-in-out"), marginTop: transit(10, 50, "ease-in-out")}}
-      leaveStyle={{ opacity: transit(1.0, 500, "ease-in-out"), height: transit(150, 500, "ease-in-out"), marginTop: transit(0, 50, "ease-in-out") }}
-      activeStyle={{ opacity: 0, height: 0, marginTop:0 }}
-      active={!event.visible}
-    >
+    <CSSTransition in={event.visible} timeout={200} classNames="asdf">
     <div className="event">
       <h3>
         {event.summary} -{" "}
