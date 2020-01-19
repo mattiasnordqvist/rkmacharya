@@ -28,22 +28,18 @@ export default class Events extends React.Component
 
     var events = this.props.pageContext.events;
     var newEvents = [];
-    events.forEach(e => {
-      if(filter.teacher[e.teacher]){
-        newEvents.push(e);
-      }
+    
+    Object.keys(this.state.filter).forEach(f => {
+      events.forEach(e => {
+        if(this.state.filter[f][e[f]]){
+          newEvents.push(e);
+        }
+      });
+      events = newEvents;
+      newEvents = [];  
     });
-    events = newEvents;
 
-    newEvents = [];
-    events.forEach(e => {
-      if(filter.summary[e.summary]){
-        newEvents.push(e);
-      }
-    });
-    events = newEvents;
-
-    this.setState({filter, events: newEvents});
+    this.setState({filter, events});
   }
 
   render()
