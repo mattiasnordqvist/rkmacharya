@@ -2,7 +2,7 @@ import React from "react"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-
+var classNames = require('classnames');
 const days = [
   "Måndag",
   "Tisdag",
@@ -25,7 +25,7 @@ const uniques = function(arr) {
 
 function Event({ event }) {
   return (
-    <div>
+    <div className={classNames({'visible':event.visible, 'hidden':!event.visible})}>
       <h3>
         {event.summary} -{" "}
         <a href={`https://maps.google.com/?q=${event.address}`}>
@@ -68,7 +68,7 @@ export default class Events extends React.Component {
     }
     this.state = {
       filter,
-      events: props.pageContext.events,
+      events: this.appendData(props.pageContext.events)
     }
   }
 
@@ -94,10 +94,10 @@ export default class Events extends React.Component {
 
   toggleFilter = (e, where, what) => {
     var filter = { ...this.state.filter }
-    filter[where][what] = !filter[where][what]
+    filter[where][what] = !filter[where][what];
     localStorage.setItem('filter', JSON.stringify(filter));
-    this.setState({ ...this.state, filter })
-    this.filterEvents()
+    this.setState({ ...this.state, filter });
+    this.filterEvents();
   }
 
   appendData = events =>
@@ -108,18 +108,18 @@ export default class Events extends React.Component {
     }))
 
   filterEvents = () => {
-    var events = this.appendData(this.props.pageContext.events)
-    var newEvents = []
-
+    var events = this.state.events;
+    events.forEach(e => {
+      e.visible = true;
+    });
+    debugger;
     Object.keys(this.state.filter).forEach(f => {
       events.forEach(e => {
-        if (this.state.filter[f][e[f]]) {
-          newEvents.push(e)
+        if (!this.state.filter[f][e[f]]) {
+          e.visible &= false;
         }
       })
-      events = newEvents
-      newEvents = []
-    })
+    });
 
     this.setState({ ...this.state, events })
   }
