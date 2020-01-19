@@ -5,13 +5,13 @@ import SEO from "../components/seo"
 import { CSSTransition, transit } from "react-css-transition";
 
 const days = [
-  "Måndag",
-  "Tisdag",
-  "Onsdag",
-  "Torsdag",
-  "Fredag",
-  "Lördag",
-  "Söndag",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
 ]
 
 const uniques = function(arr) {
