@@ -25,6 +25,13 @@ const uniques = function(arr) {
 }
 
 function Event({ event }) {
+  var formatTime = (dateTime) => 
+    new Date(dateTime).toLocaleTimeString("sv-SE", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+
   return (
     <div className={classNames({'event': true, 'visible':event.visible, 'hidden':!event.visible})}>
       <h3>
@@ -35,20 +42,7 @@ function Event({ event }) {
       </h3>
       {event.cancelled && <h4>Cancelled :(</h4>}
       <h4>{event.teacher}</h4>
-      <p>
-        {event.day}{" "}
-        {new Date(event.start).toLocaleTimeString("sv-SE", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        })}{" "}
-        -{" "}
-        {new Date(event.end).toLocaleTimeString("sv-SE", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        })}
-      </p>
+        {event.day} {formatTime(event.start)} - {formatTime(event.end)}
     </div>
   )
 }
