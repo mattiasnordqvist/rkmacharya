@@ -14,6 +14,7 @@ body {
 .asdf-enter {
     opacity: 0;
     transform: scale(0.9);
+    display:block;
   }
   .asdf-enter-active {
     opacity: 1;
@@ -33,6 +34,7 @@ body {
   }
   .asdf-exit-done {
     opacity: 0;
+    display:none;
   }
   
 
