@@ -22,13 +22,12 @@ function Event({event}){
 export default class Events extends React.Component
 {
   constructor(props) {
-    
     super(props);
     var teacherFilter = uniques(props.pageContext.events.map(x => x.teacher)).reduce((x,y) => {x[y] = true; return x;}, {});
     var summaryFilter = uniques(props.pageContext.events.map(x => x.summary)).reduce((x,y) => {x[y] = true; return x;}, {});
     this.state = { filter: {
-      teacher : teacherFilter,
-      summary : summaryFilter
+      teacher: teacherFilter,
+      summary: summaryFilter
     }, events: props.pageContext.events };
   }
 
