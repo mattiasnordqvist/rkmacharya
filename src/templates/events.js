@@ -35,7 +35,7 @@ export default class Events extends React.Component
     });
     events = newEvents;
 
-    var newEvents = [];
+    newEvents = [];
     events.forEach(e => {
       if(filter.summary[e.summary]){
         newEvents.push(e);
@@ -50,15 +50,14 @@ export default class Events extends React.Component
   {
     return (
       <div>
-        {Object.keys(this.state.filter.teacher).map((k) => {
-           return <button type="button" onClick={(e) => this.filter(e,'teacher',k)}key={k}>{k} - {this.state.filter.teacher[k] ? 'yes':'no'}</button>
-        })}
-         {Object.keys(this.state.filter.summary).map((k) => {
-           return <button type="button" onClick={(e) => this.filter(e,'summary',k)}key={k}>{k} - {this.state.filter.summary[k] ? 'yes':'no'}</button>
-        })}
-        {this.state.events.map((e) => {
-          return <Event key={e.location+e.start} event={e}></Event>
-        })}
+        {Object.keys(this.state.filter).map((f) => 
+         Object.keys(this.state.filter[f]).map((k) => 
+          <button type="button" onClick={(e) => this.filter(e,f,k)}key={k}>{k} - {this.state.filter[f][k] ? 'yes':'no'}</button>
+        ))}
+       
+        {this.state.events.map((e) => 
+          <Event key={e.location+e.start} event={e}></Event>
+        )}
       </div>);
   }
 }
