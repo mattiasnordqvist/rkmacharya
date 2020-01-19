@@ -2,7 +2,7 @@ import React from "react"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-import { CSSTransition } from "react-transition-group";
+var classNames = require('classnames');
 
 const days = [
   "Monday",
@@ -26,8 +26,7 @@ const uniques = function(arr) {
 
 function Event({ event }) {
   return (
-    <CSSTransition in={event.visible} timeout={200} classNames="asdf">
-    <div className="event">
+    <div className={classNames({'event': true, 'visible':event.visible, 'hidden':!event.visible})}>
       <h3>
         {event.summary} -{" "}
         <a href={`https://maps.google.com/?q=${event.address}`}>
@@ -51,7 +50,6 @@ function Event({ event }) {
         })}
       </p>
     </div>
-    </CSSTransition>
   )
 }
 
@@ -82,7 +80,6 @@ export default class Events extends React.Component {
       var oldFilter = JSON.parse(localStorage.getItem("filter"));
       Object.keys(newFilter).forEach(x => 
       {
-        console.log(x);
         Object.keys(newFilter[x]).forEach(y => {
           if(oldFilter.hasOwnProperty(x) && newFilter[x].hasOwnProperty(y)){
             newFilter[x][y] = oldFilter[x][y];
@@ -92,7 +89,7 @@ export default class Events extends React.Component {
       localStorage.setItem("filter", JSON.stringify(newFilter));
       this.setState({filter:newFilter});
     }
-    this.filterEvents()
+    this.filterEvents();
   }
 
   toggleFilter = (e, where, what) => {
@@ -108,6 +105,7 @@ export default class Events extends React.Component {
       ...x,
       day: days[(new Date(x.start).getDay() + 6) % 7],
       clientAndLocation: x.client+" "+x.location,
+      visible: true
     }))
 
   filterEvents = () => {
