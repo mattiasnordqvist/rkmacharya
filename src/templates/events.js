@@ -2,6 +2,14 @@ import React from "react"
 
 const days = ['Söndag', 'Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag'];
 
+const uniques = function(arr) {
+  var a = [];
+  for (var i=0, l=arr.length; i<l; i++)
+      if (a.indexOf(arr[i]) === -1 && arr[i] !== '')
+          a.push(arr[i]);
+  return a;
+}
+
 function Event({event}){
     return (<div>
         <h3>{event.summary} - <a href={`https://maps.google.com/?q=${event.address}`}>{event.client} {event.location}</a></h3>
@@ -16,9 +24,11 @@ export default class Events extends React.Component
   constructor(props) {
     
     super(props);
+    var teacherFilter = uniques(props.pageContext.events.map(x => x.teacher)).reduce((x,y) => {x[y] = true; return x;}, {});
+    var summaryFilter = uniques(props.pageContext.events.map(x => x.summary)).reduce((x,y) => {x[y] = true; return x;}, {});
     this.state = { filter: {
-      teacher : {'Alice Henry': true, 'Erika Erlando': true },
-      summary : {'Layayoga': true, 'Acharyayoga': true, 'Layayoga Seniors': true}
+      teacher : teacherFilter,
+      summary : summaryFilter
     }, events: props.pageContext.events };
   }
 
@@ -28,7 +38,7 @@ export default class Events extends React.Component
 
     var events = this.props.pageContext.events;
     var newEvents = [];
-    
+
     Object.keys(this.state.filter).forEach(f => {
       events.forEach(e => {
         if(this.state.filter[f][e[f]]){
