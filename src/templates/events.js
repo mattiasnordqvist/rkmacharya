@@ -1,5 +1,8 @@
 import React from "react"
 
+import Layout from "../components/layout"
+import SEO from "../components/seo"
+
 const days = [
   "Måndag",
   "Tisdag",
@@ -121,10 +124,11 @@ export default class Events extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     if (this.state && this.state.filter && this.state.events) {
       return (
-        <div>
+        
+        <Layout>
+          <SEO title="Home" ></SEO>
           {Object.keys(this.state.filter).map(f =>
             Object.keys(this.state.filter[f]).map(k => (
               <button
@@ -140,7 +144,7 @@ export default class Events extends React.Component {
           {this.state.events.map(e => (
             <Event key={e.location + e.start} event={e}></Event>
           ))}
-        </div>
+        </Layout>
       )
     } else {
       return <div>Loading...</div>

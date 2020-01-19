@@ -57,7 +57,7 @@ exports.createPages = async ({ actions: { createPage } }) => {
     events = events.sort((a,b) => Date.parse(a.start) - Date.parse(b.start));
     
     createPage({
-      path: `/events`,
+      path: `/`,
       component: require.resolve("./src/templates/events.js"),
       context: {events: events},
     });
