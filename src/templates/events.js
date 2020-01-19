@@ -66,23 +66,6 @@ export default class Events extends React.Component {
       day: dayFilter,
       clientAndLocation: locationFilter,
     }
-    if(localStorage.getItem("filter"))
-    {
-      var oldFilter = JSON.parse(localStorage.getItem("filter"));
-      console.log(oldFilter);
-      Object.keys(filter).forEach(x => 
-      {
-        console.log(x);
-        Object.keys(filter[x]).forEach(y => {
-          if(oldFilter.hasOwnProperty(x) && filter[x].hasOwnProperty(y)){
-            console.log('-'+y);
-            filter[x][y] = oldFilter[x][y];
-          }
-        })
-      });
-      localStorage.setItem("filter", JSON.stringify(filter));
-    }
-
     this.state = {
       filter,
       events: props.pageContext.events,
@@ -90,6 +73,22 @@ export default class Events extends React.Component {
   }
 
   componentDidMount() {
+    if(localStorage.getItem("filter"))
+    {
+      var newFilter = this.state.filter;
+      var oldFilter = JSON.parse(localStorage.getItem("filter"));
+      Object.keys(newFilter).forEach(x => 
+      {
+        console.log(x);
+        Object.keys(newFilter[x]).forEach(y => {
+          if(oldFilter.hasOwnProperty(x) && newFilter[x].hasOwnProperty(y)){
+            newFilter[x][y] = oldFilter[x][y];
+          }
+        })
+      });
+      localStorage.setItem("filter", JSON.stringify(newFilter));
+      this.setState({filter:newFilter});
+    }
     this.filterEvents()
   }
 
@@ -128,9 +127,8 @@ export default class Events extends React.Component {
   render() {
     if (this.state && this.state.filter && this.state.events) {
       return (
-        
         <Layout>
-          <SEO title="Home" ></SEO>
+          <SEO title="Home"></SEO>
           {Object.keys(this.state.filter).map(f =>
             Object.keys(this.state.filter[f]).map(k => (
               <button
