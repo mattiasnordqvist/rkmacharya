@@ -1,8 +1,9 @@
 import React from "react"
-
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-var classNames = require('classnames');
+
+import { CSSTransition, transit } from "react-css-transition";
+
 const days = [
   "Måndag",
   "Tisdag",
@@ -25,7 +26,14 @@ const uniques = function(arr) {
 
 function Event({ event }) {
   return (
-    <div className={classNames({'visible':event.visible, 'hidden':!event.visible})}>
+    <CSSTransition
+      defaultStyle={{ opacity: 1, height:150 }}
+      enterStyle={{ opacity: transit(0, 500, "ease-in-out"), height: transit(0, 500, "ease-in-out")}}
+      leaveStyle={{ opacity: transit(1.0, 500, "ease-in-out"), height: transit(150, 500, "ease-in-out") }}
+      activeStyle={{ opacity: 0, height: 0 }}
+      active={!event.visible}
+    >
+    <div>
       <h3>
         {event.summary} -{" "}
         <a href={`https://maps.google.com/?q=${event.address}`}>
@@ -49,6 +57,7 @@ function Event({ event }) {
         })}
       </p>
     </div>
+    </CSSTransition>
   )
 }
 
@@ -112,7 +121,6 @@ export default class Events extends React.Component {
     events.forEach(e => {
       e.visible = true;
     });
-    debugger;
     Object.keys(this.state.filter).forEach(f => {
       events.forEach(e => {
         if (!this.state.filter[f][e[f]]) {

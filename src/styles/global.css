@@ -3,15 +3,19 @@ body {
 }
 
 .hidden {
-    display: none; /*remove to make animation work*/
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s 0.5s, opacity 0.5s linear;
+    -webkit-transition: all .75s ease;
+    -moz-transition: all .75s ease;
+    -o-transition: all .75s ease;
+    transition: all .75s ease;
+    margin-left: 200px;
+    opacity: 0;
 }
 
 .visible {
-    display: block; /*remove to make animation work*/
-  visibility: visible;
-  opacity: 1;
-  transition: opacity 0.5s linear;
+    -webkit-transition: all .75s ease;
+    -moz-transition: all .75s ease;
+    -o-transition: all .75s ease;
+    transition: all .75s ease;
+    margin-left: 0px;
+    opacity: 1;
 }
