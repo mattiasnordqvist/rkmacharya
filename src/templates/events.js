@@ -55,35 +55,36 @@ function Event({ event }) {
 export default class Events extends React.Component {
   constructor(props) {
     super(props)
-    var teacherFilter = uniques(
-      props.pageContext.events.map(x => x.teacher)
-    ).reduce((x, y) => {
-      x[y] = true
-      return x
-    }, {})
-    var summaryFilter = uniques(
-      props.pageContext.events.map(x => x.summary)
-    ).reduce((x, y) => {
-      x[y] = true
-      return x
-    }, {})
-    var locationFilter = uniques(
-      props.pageContext.events.map(x => x.client + " " + x.location)
-    ).reduce((x, y) => {
-      x[y] = true
-      return x
-    }, {})
-    var dayFilter = days.reduce((x, y) => {
-      x[y] = true
-      return x
-    }, {})
+    var teacherFilter = uniques(props.pageContext.events.map(x => x.teacher)).reduce((x, y) => { x[y] = true; return x; }, {});
+    var summaryFilter = uniques(props.pageContext.events.map(x => x.summary)).reduce((x, y) => { x[y] = true; return x; }, {});
+    var locationFilter = uniques(props.pageContext.events.map(x => x.client + " " + x.location)).reduce((x, y) => { x[y] = true; return x; }, {});
+    var dayFilter = days.reduce((x, y) => { x[y] = true; return x }, {})
+
+    var filter = {
+      teacher: teacherFilter,
+      summary: summaryFilter,
+      day: dayFilter,
+      clientAndLocation: locationFilter,
+    }
+    if(localStorage.getItem("filter"))
+    {
+      var oldFilter = JSON.parse(localStorage.getItem("filter"));
+      console.log(oldFilter);
+      Object.keys(filter).forEach(x => 
+      {
+        console.log(x);
+        Object.keys(filter[x]).forEach(y => {
+          if(oldFilter.hasOwnProperty(x) && filter[x].hasOwnProperty(y)){
+            console.log('-'+y);
+            filter[x][y] = oldFilter[x][y];
+          }
+        })
+      });
+      localStorage.setItem("filter", JSON.stringify(filter));
+    }
+
     this.state = {
-      filter: {
-        teacher: teacherFilter,
-        summary: summaryFilter,
-        day: dayFilter,
-        clientAndLocation: locationFilter,
-      },
+      filter,
       events: props.pageContext.events,
     }
   }
@@ -95,6 +96,7 @@ export default class Events extends React.Component {
   toggleFilter = (e, where, what) => {
     var filter = { ...this.state.filter }
     filter[where][what] = !filter[where][what]
+    localStorage.setItem('filter', JSON.stringify(filter));
     this.setState({ ...this.state, filter })
     this.filterEvents()
   }
