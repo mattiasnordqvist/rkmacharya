@@ -1,21 +1,14 @@
+html {
+   
+}
+
 body {
-  background-color: red;
+    background: url('increation.jpg')  no-repeat center center fixed;
+    background-size: cover;
 }
 
-.hidden {
-    -webkit-transition: all .75s ease;
-    -moz-transition: all .75s ease;
-    -o-transition: all .75s ease;
-    transition: all .75s ease;
-    margin-left: 200px;
-    opacity: 0;
-}
-
-.visible {
-    -webkit-transition: all .75s ease;
-    -moz-transition: all .75s ease;
-    -o-transition: all .75s ease;
-    transition: all .75s ease;
-    margin-left: 0px;
-    opacity: 1;
+.event {
+    background-color: white;
+    border: 1px solid black;
+    
 }
