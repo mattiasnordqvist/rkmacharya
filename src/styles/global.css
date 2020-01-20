@@ -1,3 +1,34 @@
-body {
-background-color: green;
+html {
+   
 }
+
+body {
+    background: url('increation.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.event {
+    background-color: white;
+    border: 1px solid black;
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block; 
+}
+
+.event {
+    opacity: 0.9;
+    transition: opacity .25s ease-in-out;
+    -moz-transition: opacity .25s ease-in-out;
+    -webkit-transition: opacity .25s ease-in-out;
+    }
+ 
+    .event:hover {
+       opacity: 1;
+       }
+
+      
