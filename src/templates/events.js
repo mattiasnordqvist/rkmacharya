@@ -4,6 +4,8 @@ import SEO from "../components/seo"
 
 var classNames = require('classnames');
 
+var todayIndex = (new Date().getDay() + 6) % 7;
+
 const days = [
   "Monday",
   "Tuesday",
@@ -54,7 +56,15 @@ export default class Events extends React.Component {
     var summaryFilter = uniques(props.pageContext.events.map(x => x.summary)).reduce((x, y) => { x[y] = true; return x; }, {});
     var locationFilter = uniques(props.pageContext.events.map(x => x.client + " " + x.location)).reduce((x, y) => { x[y] = true; return x; }, {});
     var dayFilter = days.reduce((x, y) => { x[y] = true; return x }, {})
-
+    var dateFilter = {
+      check: (e) => e.start >= this.dates[this.active],
+      dayNames: [0,1,2,3,4,5,6].map(x=>days[(x+todayIndex)%7]), 
+      dates: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14].map(x => {
+        var someDay = new Date();
+        someDay.setDate(new Date().getDate()+x);
+        return someDay;
+      }),
+      active: 0};
     var filter = {
       teacher: teacherFilter,
       summary: summaryFilter,
