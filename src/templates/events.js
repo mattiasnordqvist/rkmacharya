@@ -37,30 +37,32 @@ const formatTime = dateTime =>
     hour12: false,
   })
 
-function Event({ event }) {
-  return (
-
-    <div className="col-4 mb-4">
-      <div className="card">
-        <img className="card-img-top" src={logo} />
-        <div className="card-body">
-
-          <h2 className="card-title">
-            {event.summary}
-          </h2>
-          <a href={`https://maps.google.com/?q=${event.address}`}>
-            {event.client} {event.location}
-          </a>
-          <p className="card-text">
-            {event.cancelled && <h4>Cancelled :(</h4>}
-          </p>
-          <p className="card-text"><h4>{event.teacher}</h4>
-            {event.day} {formatTime(event.start)} - {formatTime(event.end)}</p>
+  function Event({ event }) {
+    return (
+  
+      <div className="col-4 mb-4">
+        <div className="card">
+          <img className="card-img-top" src={logo} />
+          <div className="card-body">
+  
+            <h2 className="card-title">
+              {event.summary}
+            </h2>
+            <a href={`https://maps.google.com/?q=${event.address}`}>
+              {event.client} {event.location}
+            </a>
+            <div className="card-text">
+              {event.cancelled && <h4>Cancelled :(</h4>}
+                <h4>{event.teacher}</h4>
+              {event.day} {formatTime(event.start)} - {formatTime(event.end)}
+            </div>
+            
+              
+          </div>
+  
         </div>
-
-      </div>
-    </div>)
-}
+      </div>)
+  }
 
 const ToggleFilter = ({ toggles, onToggle }) => {
   return (
@@ -200,11 +202,14 @@ const Events = props => {
       {dates.map((d) => {
       return (<div key={d.toString()}>
         <p style={{backgroundColor: "white"}}>{days[getDayIndex(d.getDay())]}: {d.getDate()}/{d.getMonth()+1}</p>
+        <div className= "row">
         {
           highlightEvents(events.filter(e => e.date.getTime() == d.getTime())).map(e => (
+            
             <Event key={e.location + e.start} event={e}></Event>
+            
           ))
-        }
+        }</div>
       </div>)})
       }
       {/* {groupBy(highlightEvents(events), e => e.date.toString()).map(g => {

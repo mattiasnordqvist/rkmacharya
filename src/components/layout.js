@@ -21,13 +21,13 @@ const Layout = ({ children }) => {
       <Header />
 
         
-        <body>
+        <main>
         <div className="container">
-        <div className= "row">
+        
           {children}
           </div>
-        </div>
-          </body>
+        
+          </main>
         </>
        
        
