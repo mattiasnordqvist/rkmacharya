@@ -1,14 +1,9 @@
-html {
-   
-}
-
 body {
-    background: url('increation.jpg') no-repeat center center fixed;
+    background-color: red;
     background-size: cover;
 }
-
 .event {
-    background-color: white;
+    background-color: red;
     border: 1px solid black;
 }
 
@@ -17,18 +12,11 @@ body {
 }
 
 .visible {
-    display: block; 
+  padding: 2px 16px;
+  margin-bottom: 10px;
+  margin-left: 10px;
 }
-
-.event {
-    opacity: 0.9;
-    transition: opacity .25s ease-in-out;
-    -moz-transition: opacity .25s ease-in-out;
-    -webkit-transition: opacity .25s ease-in-out;
-    }
- 
-    .event:hover {
-       opacity: 1;
-       }
-
-      
+.event:hover {
+    opacity: 1;
+   background-color: #d3d3d3;
+}

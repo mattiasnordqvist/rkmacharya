@@ -1,6 +1,8 @@
 import React from "react"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import logo from "../styles/HOME_rkm.ACHARYAYoga_Solo.jpg"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 var classNames = require('classnames');
 
@@ -14,7 +16,7 @@ const days = [
   "Sunday",
 ]
 
-const uniques = function(arr) {
+const uniques = function (arr) {
   var a = []
   for (var i = 0, l = arr.length; i < l; i++) {
     if (a.indexOf(arr[i]) === -1 && arr[i] !== "") {
@@ -25,7 +27,7 @@ const uniques = function(arr) {
 }
 
 function Event({ event }) {
-  var formatTime = (dateTime) => 
+  var formatTime = (dateTime) =>
     new Date(dateTime).toLocaleTimeString("sv-SE", {
       hour: "2-digit",
       minute: "2-digit",
@@ -33,18 +35,27 @@ function Event({ event }) {
     });
 
   return (
-    <div className={classNames({'event': true, 'visible':event.visible, 'hidden':!event.visible})}>
-      <h3>
-        {event.summary} -{" "}
-        <a href={`https://maps.google.com/?q=${event.address}`}>
-          {event.client} {event.location}
-        </a>
-      </h3>
-      {event.cancelled && <h4>Cancelled :(</h4>}
-      <h4>{event.teacher}</h4>
-        {event.day} {formatTime(event.start)} - {formatTime(event.end)}
-    </div>
-  )
+
+    <div className="col-4 mb-4">
+      <div className="card">
+        <img className="card-img-top" src={logo} />
+        <div className="card-body">
+
+          <h2 className="card-title">
+            {event.summary}
+          </h2>
+          <a href={`https://maps.google.com/?q=${event.address}`}>
+            {event.client} {event.location}
+          </a>
+          <p className="card-text">
+            {event.cancelled && <h4>Cancelled :(</h4>}
+          </p>
+          <p className="card-text"><h4>{event.teacher}</h4>
+            {event.day} {formatTime(event.start)} - {formatTime(event.end)}</p>
+        </div>
+
+      </div>
+    </div>)
 }
 
 export default class Events extends React.Component {
@@ -68,20 +79,18 @@ export default class Events extends React.Component {
   }
 
   componentDidMount() {
-    if(localStorage.getItem("filter"))
-    {
+    if (localStorage.getItem("filter")) {
       var newFilter = this.state.filter;
       var oldFilter = JSON.parse(localStorage.getItem("filter"));
-      Object.keys(newFilter).forEach(x => 
-      {
+      Object.keys(newFilter).forEach(x => {
         Object.keys(newFilter[x]).forEach(y => {
-          if(oldFilter.hasOwnProperty(x) && newFilter[x].hasOwnProperty(y)){
+          if (oldFilter.hasOwnProperty(x) && newFilter[x].hasOwnProperty(y)) {
             newFilter[x][y] = oldFilter[x][y];
           }
         })
       });
       localStorage.setItem("filter", JSON.stringify(newFilter));
-      this.setState({filter:newFilter});
+      this.setState({ filter: newFilter });
     }
     this.filterEvents();
   }
@@ -98,7 +107,7 @@ export default class Events extends React.Component {
     events.map(x => ({
       ...x,
       day: days[(new Date(x.start).getDay() + 6) % 7],
-      clientAndLocation: x.client+" "+x.location,
+      clientAndLocation: x.client + " " + x.location,
       visible: true
     }))
 
@@ -121,24 +130,28 @@ export default class Events extends React.Component {
   render() {
     if (this.state && this.state.filter && this.state.events) {
       return (
+
         <Layout>
-          <SEO title="Home"></SEO>
+          {/* <SEO title="Home"></SEO>
           {Object.keys(this.state.filter).map(f =>
             Object.keys(this.state.filter[f]).map(k => (
-              <button
-                type="button"
-                onClick={e => this.toggleFilter(e, f, k)}
-                key={k}
-              >
-                {k} - {this.state.filter[f][k] ? "yes" : "no"}
-              </button>
+              <div className="flex-filter">
+                <button
+                  type="button"
+                  onClick={e => this.toggleFilter(e, f, k)}
+                  key={k}
+                >
+                  {k} - {this.state.filter[f][k] ? "yes" : "no"}
+                </button>
+              </div>
             ))
-          )}
+          )} */}
 
           {this.state.events.map(e => (
             <Event key={e.location + e.start} event={e}></Event>
           ))}
         </Layout>
+
       )
     } else {
       return <div>Loading...</div>
