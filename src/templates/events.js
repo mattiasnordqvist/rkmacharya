@@ -3,8 +3,10 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 var classNames = require("classnames")
+const getDayIndex = (day) => (day+6)%7;
 
-var todayIndex = (new Date().getDay() + 6) % 7
+var todayIndex = getDayIndex(new Date().getDay());
+
 
 const days = [
   "Monday",
@@ -96,28 +98,23 @@ const appendData = events =>
     clientAndLocation: x.client + " " + x.location,
     highlighted: false,
   }))
+
 const Events = props => {
   const [events, setEvents] = useState(appendData(props.pageContext.events))
-  const [teacherToggles, setTeacherToggles] = useState(
-    createToggles(events.map(x => x.teacher))
-  )
-  const [summaryToggles, setSummaryToggles] = useState(
-    createToggles(events.map(x => x.summary))
-  )
-  const [locationToggles, setLocationToggles] = useState(
-    createToggles(events.map(x => x.clientAndLocation))
-  )
+  const [teacherToggles, setTeacherToggles] = useState(createToggles(events.map(x => x.teacher)))
+  const [summaryToggles, setSummaryToggles] = useState(createToggles(events.map(x => x.summary)))
+  const [locationToggles, setLocationToggles] = useState(createToggles(events.map(x => x.clientAndLocation)))
   const [dayToggles, setDayToggles] = useState(createToggles(days))
-
-  // var dateFilter = {
-  //   check: (e) => e.start >= this.dates[this.active],
-  //   dayNames: [0,1,2,3,4,5,6].map(x=>days[(x+todayIndex)%7]),
-  //   dates: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14].map(x => {
-  //     var someDay = new Date();
-  //     someDay.setDate(new Date().getDate()+x);
-  //     return someDay;
-  //   }),
-  //   active: 0};
+  // const [dateFilter, setDateFilter] = useState({
+  //     check: (e) => e.start >= this.dates[this.active],
+  //     dayNames: [0,1,2,3,4,5,6].map(x=>days[(x+todayIndex)%7]),
+  //     dates: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14].map(x => {
+  //       var someDay = new Date();
+  //       someDay.setDate(new Date().getDate()+x);
+  //       return someDay;
+  //     }),
+  //     active: 0})
+  // var dateFilter = ;
 
   // componentDidMount() {
   //   if(localStorage.getItem("filter"))
@@ -148,7 +145,9 @@ const Events = props => {
 
   //
 
-  const filterEvents = events => {
+  const removePassedEvents = events => events.filter((e) => e.date >= new Date(new Date().setHours(0,0,0,0)));
+  
+  const highlightEvents = events => {
     events.forEach(e => {
       e.highlighted = false
     })
@@ -173,26 +172,14 @@ const Events = props => {
   return (
     <Layout>
       <SEO title="Home"></SEO>
-      <ToggleFilter
-        toggles={teacherToggles}
-        onToggle={k => setTeacherToggles(toggle(teacherToggles, k))}
-      ></ToggleFilter>
-      <ToggleFilter
-        toggles={summaryToggles}
-        onToggle={k => setSummaryToggles(toggle(summaryToggles, k))}
-      ></ToggleFilter>
-      <ToggleFilter
-        toggles={locationToggles}
-        onToggle={k => setLocationToggles(toggle(locationToggles, k))}
-      ></ToggleFilter>
-      <ToggleFilter
-        toggles={dayToggles}
-        onToggle={k => setDayToggles(toggle(dayToggles, k))}
-      ></ToggleFilter>
-      {groupBy(filterEvents(events), e => e.date.toString()).map(g => {
+      <ToggleFilter toggles={teacherToggles} onToggle={k => setTeacherToggles(toggle(teacherToggles, k))}></ToggleFilter>
+      <ToggleFilter toggles={summaryToggles} onToggle={k => setSummaryToggles(toggle(summaryToggles, k))}></ToggleFilter>
+      <ToggleFilter toggles={locationToggles} onToggle={k => setLocationToggles(toggle(locationToggles, k))}></ToggleFilter>
+      <ToggleFilter toggles={dayToggles} onToggle={k => setDayToggles(toggle(dayToggles, k))}></ToggleFilter>
+      {groupBy(highlightEvents(removePassedEvents(events)), e => e.date.toString()).map(g => {
         return (
           <div key={g.key.toString()}>
-            <p>{g.key.toString()}</p>
+            <p style={{backgroundColor: "white"}}>{days[getDayIndex(new Date(g.key).getDay())]}: {new Date(g.key).getDate()}/{new Date(g.key).getMonth()+1}</p>
             {g.values.map(e => (
               <Event key={e.location + e.start} event={e}></Event>
             ))}
