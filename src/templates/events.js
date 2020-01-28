@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-var classNames = require('classnames');
+var classNames = require("classnames")
 
-var todayIndex = (new Date().getDay() + 6) % 7;
+var todayIndex = (new Date().getDay() + 6) % 7
 
 const days = [
   "Monday",
@@ -26,16 +26,16 @@ const uniques = function(arr) {
   return a
 }
 
-function Event({ event }) {
-  var formatTime = (dateTime) => 
-    new Date(dateTime).toLocaleTimeString("sv-SE", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
+const formatTime = dateTime =>
+  new Date(dateTime).toLocaleTimeString("sv-SE", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  })
 
+function Event({ event }) {
   return (
-    <div className={classNames({'event': true, 'visible':event.visible, 'hidden':!event.visible})}>
+    <div className={classNames({ event: true, highlighted: event.highlighted })}>
       <h3>
         {event.summary} -{" "}
         <a href={`https://maps.google.com/?q=${event.address}`}>
@@ -44,60 +44,87 @@ function Event({ event }) {
       </h3>
       {event.cancelled && <h4>Cancelled :(</h4>}
       <h4>{event.teacher}</h4>
-        {event.day} {formatTime(event.start)} - {formatTime(event.end)}
+      {event.day} {formatTime(event.start)} - {formatTime(event.end)}
     </div>
   )
 }
 
-const ToggleFilter = ({values}) => {
-  const [toggles, setToggles] = useState(values.reduce((x, y) => { x[y] = true; return x; }, {}));
-  return (<div>
-    {values.map(v => 
-    <button type="button" key={v} onClick={() => setToggles(Object.assign({}, toggles, (function(attr, val){ var a = {}; a[attr]=val; return a; })(v,!toggles[v])))}> 
-      {v} - {toggles[v] ? "yes" : "no"}
-    </button>)}
-  </div>);
+const ToggleFilter = ({ toggles, onToggle }) => {
+  return (
+    <div>
+      {Object.keys(toggles).map(k => (
+        <button type="button" key={k} onClick={() => onToggle(k)}>
+          {k} - {toggles[k] ? "yes" : "no"}
+        </button>
+      ))}
+    </div>
+  )
 }
 
-export default class Events extends React.Component {
-  constructor(props) {
-    super(props)
-    
-    // var teacherFilter = uniques(props.pageContext.events.map(x => x.teacher)).reduce((x, y) => { x[y] = true; return x; }, {});
-    // var summaryFilter = uniques(props.pageContext.events.map(x => x.summary)).reduce((x, y) => { x[y] = true; return x; }, {});
-    // var locationFilter = uniques(props.pageContext.events.map(x => x.client + " " + x.location)).reduce((x, y) => { x[y] = true; return x; }, {});
-    // var dayFilter = days.reduce((x, y) => { x[y] = true; return x }, {})
-    var dateFilter = {
-      check: (e) => e.start >= this.dates[this.active],
-      dayNames: [0,1,2,3,4,5,6].map(x=>days[(x+todayIndex)%7]), 
-      dates: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14].map(x => {
-        var someDay = new Date();
-        someDay.setDate(new Date().getDate()+x);
-        return someDay;
-      }),
-      active: 0};
-    // var filter = {
-    //   teacher: teacherFilter,
-    //   summary: summaryFilter,
-    //   day: dayFilter,
-    //   clientAndLocation: locationFilter,
-    // }
-    this.state = {
-      teachers: uniques(props.pageContext.events.map(x => x.teacher)),
-      summaries: uniques(props.pageContext.events.map(x => x.summary)),
-      days: days,
-      clientsAndLocations: uniques(props.pageContext.events.map(x => x.client + " " + x.location)),
-      // filter,
-      events: this.appendData(props.pageContext.events)
+const groupBy = (xs, key) =>
+  xs.reduce((rv, x) => {
+    let v = key instanceof Function ? key(x) : x[key]
+    let el = rv.find(r => r && r.key === v)
+    if (el) {
+      el.values.push(x)
+    } else {
+      rv.push({ key: v, values: [x] })
     }
-  }
+    return rv
+  }, [])
+
+const createToggles = a =>
+  uniques(a).reduce((x, y) => {
+    x[y] = false
+    return x
+  }, {})
+const toggle = (toggles, k) =>
+  Object.assign(
+    {},
+    toggles,
+    (function(attr, val) {
+      var a = {}
+      a[attr] = val
+      return a
+    })(k, !toggles[k])
+  )
+const appendData = events =>
+  events.map(x => ({
+    ...x,
+    date: new Date(new Date(x.start).setHours(0, 0, 0, 0)),
+    day: days[(new Date(x.start).getDay() + 6) % 7],
+    clientAndLocation: x.client + " " + x.location,
+    highlighted: false,
+  }))
+const Events = props => {
+  const [events, setEvents] = useState(appendData(props.pageContext.events))
+  const [teacherToggles, setTeacherToggles] = useState(
+    createToggles(events.map(x => x.teacher))
+  )
+  const [summaryToggles, setSummaryToggles] = useState(
+    createToggles(events.map(x => x.summary))
+  )
+  const [locationToggles, setLocationToggles] = useState(
+    createToggles(events.map(x => x.clientAndLocation))
+  )
+  const [dayToggles, setDayToggles] = useState(createToggles(days))
+
+  // var dateFilter = {
+  //   check: (e) => e.start >= this.dates[this.active],
+  //   dayNames: [0,1,2,3,4,5,6].map(x=>days[(x+todayIndex)%7]),
+  //   dates: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14].map(x => {
+  //     var someDay = new Date();
+  //     someDay.setDate(new Date().getDate()+x);
+  //     return someDay;
+  //   }),
+  //   active: 0};
 
   // componentDidMount() {
   //   if(localStorage.getItem("filter"))
   //   {
   //     var newFilter = this.state.filter;
   //     var oldFilter = JSON.parse(localStorage.getItem("filter"));
-  //     Object.keys(newFilter).forEach(x => 
+  //     Object.keys(newFilter).forEach(x =>
   //     {
   //       Object.keys(newFilter[x]).forEach(y => {
   //         if(oldFilter.hasOwnProperty(x) && newFilter[x].hasOwnProperty(y)){
@@ -119,58 +146,61 @@ export default class Events extends React.Component {
   //   this.filterEvents();
   // }
 
-  appendData = events =>
-    events.map(x => ({
-      ...x,
-      day: days[(new Date(x.start).getDay() + 6) % 7],
-      clientAndLocation: x.client+" "+x.location,
-      visible: true
-    }))
+  //
 
-  // filterEvents = () => {
-  //   var events = this.state.events;
-  //   events.forEach(e => {
-  //     e.visible = true;
-  //   });
-  //   Object.keys(this.state.filter).forEach(f => {
-  //     events.forEach(e => {
-  //       if (!this.state.filter[f][e[f]]) {
-  //         e.visible &= false;
-  //       }
-  //     })
-  //   });
+  const filterEvents = events => {
+    events.forEach(e => {
+      e.highlighted = false
+    })
 
-  //   this.setState({ ...this.state, events })
-  // }
-
-  render() {
-    if (this.state && this.state.events) {
-      return (
-        <Layout>
-          <SEO title="Home"></SEO>
-          <ToggleFilter values={this.state.teachers}></ToggleFilter>
-          <ToggleFilter values={this.state.summaries}></ToggleFilter>
-          <ToggleFilter values={this.state.days}></ToggleFilter>
-          <ToggleFilter values={this.state.clientsAndLocations}></ToggleFilter>
-          {/* {Object.keys(this.state.filter).map(f =>
-            Object.keys(this.state.filter[f]).map(k => (
-              <button
-                type="button"
-                onClick={e => this.toggleFilter(e, f, k)}
-                key={k}
-              >
-                {k} - {this.state.filter[f][k] ? "yes" : "no"}
-              </button>
-            ))
-          )} */}
-
-          {this.state.events.map(e => (
-            <Event key={e.location + e.start} event={e}></Event>
-          ))}
-        </Layout>
-      )
-    } else {
-      return <div>Loading...</div>
-    }
+    events.forEach(e => {
+      if (teacherToggles[e.teacher]) {
+        e.highlighted |= true
+      }
+      if (summaryToggles[e.summary]) {
+        e.highlighted |= true
+      }
+      if (locationToggles[e.clientAndLocation]) {
+        e.highlighted |= true
+      }
+      if (dayToggles[e.day]) {
+        e.highlighted |= true
+      }
+    })
+    return events
   }
+
+  return (
+    <Layout>
+      <SEO title="Home"></SEO>
+      <ToggleFilter
+        toggles={teacherToggles}
+        onToggle={k => setTeacherToggles(toggle(teacherToggles, k))}
+      ></ToggleFilter>
+      <ToggleFilter
+        toggles={summaryToggles}
+        onToggle={k => setSummaryToggles(toggle(summaryToggles, k))}
+      ></ToggleFilter>
+      <ToggleFilter
+        toggles={locationToggles}
+        onToggle={k => setLocationToggles(toggle(locationToggles, k))}
+      ></ToggleFilter>
+      <ToggleFilter
+        toggles={dayToggles}
+        onToggle={k => setDayToggles(toggle(dayToggles, k))}
+      ></ToggleFilter>
+      {groupBy(filterEvents(events), e => e.date.toString()).map(g => {
+        return (
+          <div key={g.key.toString()}>
+            <p>{g.key.toString()}</p>
+            {g.values.map(e => (
+              <Event key={e.location + e.start} event={e}></Event>
+            ))}
+          </div>
+        )
+      })}
+    </Layout>
+  )
 }
+
+export default Events
