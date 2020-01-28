@@ -41,7 +41,7 @@ const formatTime = dateTime =>
     return (
       
       <div className="col-12 col-sm-6 col-md-4 mb-4" >
-        <div className="card" className={classNames({ event: true, highlighted: event.highlighted })}>
+        <div className={classNames({ card: true, event: true, highlighted: event.highlighted })}>
           <img className="card-img-top" src={logo} />
           <div className="card-body">
   
