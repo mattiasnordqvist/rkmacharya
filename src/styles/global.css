@@ -12,15 +12,12 @@ body {
     border: 1px solid black;
 }
 
-.hidden {
-    display: none;
-}
-
-.visible {
-    display: block; 
+.highlighted {
+    background-color: greenyellow;
 }
 
 .event {
+    display: block; 
     opacity: 0.9;
     transition: opacity .25s ease-in-out;
     -moz-transition: opacity .25s ease-in-out;
