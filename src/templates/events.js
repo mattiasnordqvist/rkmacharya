@@ -111,7 +111,6 @@ const Events = props => {
   const [locationToggles, setLocationToggles] = useState(createToggles(events.map(x => x.clientAndLocation)))
   const [dayToggles, setDayToggles] = useState(createToggles(days))
   const dates = generateDates(DatePart(new Date()), DatePart(new Date(Math.max.apply(null, events.map((e) => e.date)))));
-  console.log(dates);
   // const [dateFilter, setDateFilter] = useState({
   //     check: (e) => e.start >= this.dates[this.active],
   //     dayNames: [0,1,2,3,4,5,6].map(x=>days[(x+todayIndex)%7]),
@@ -196,16 +195,6 @@ const Events = props => {
         }
       </div>)})
       }
-      {/* {groupBy(highlightEvents(events), e => e.date.toString()).map(g => {
-        return (
-          <div key={g.key.toString()}>
-            
-            {g.values.map(e => (
-              <Event key={e.location + e.start} event={e}></Event>
-            ))}
-          </div>
-        )
-      })} */}
     </Layout>
   )
 }
