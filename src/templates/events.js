@@ -154,21 +154,26 @@ const Events = props => {
   
   const highlightEvents = events => {
     events.forEach(e => {
-      e.highlighted = false
-    })
-
-    events.forEach(e => {
-      if (teacherToggles[e.teacher]) {
-        e.highlighted |= true
+      var anyfilter = false;
+      e.highlighted = true
+      if (Object.values(teacherToggles).some(x => x)) {
+        e.highlighted &= teacherToggles[e.teacher]
+        anyfilter = true;
       }
-      if (summaryToggles[e.summary]) {
-        e.highlighted |= true
+      if (Object.values(summaryToggles).some(x => x)) {
+        e.highlighted &= summaryToggles[e.summary]
+        anyfilter = true;
       }
-      if (locationToggles[e.clientAndLocation]) {
-        e.highlighted |= true
+      if (Object.values(locationToggles).some(x => x)) {
+        e.highlighted &= locationToggles[e.clientAndLocation]
+        anyfilter = true;
       }
-      if (dayToggles[e.day]) {
-        e.highlighted |= true
+      if (Object.values(dayToggles).some(x => x)) {
+        e.highlighted &= dayToggles[e.day]
+        anyfilter = true;
+      }
+      if(!anyfilter){
+        e.highlighted = false;
       }
     })
     return events
