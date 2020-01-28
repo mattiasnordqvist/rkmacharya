@@ -7,18 +7,11 @@ body {
     border: 1px solid black;
 }
 
-.hidden {
-    display: none;
-}
 .highlighted {
-  background-color: greenyellow;
+  background-color: greenyellow !important;
 }
 
-.visible {
-  padding: 2px 16px;
-  margin-bottom: 10px;
-  margin-left: 10px;
-}
+
 .event:hover {
     opacity: 1;
    background-color: #d3d3d3;
