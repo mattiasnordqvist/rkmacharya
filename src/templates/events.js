@@ -63,17 +63,6 @@ const ToggleFilter = ({ toggles, onToggle }) => {
   )
 }
 
-const groupBy = (xs, key) =>
-  xs.reduce((rv, x) => {
-    let v = key instanceof Function ? key(x) : x[key]
-    let el = rv.find(r => r && r.key === v)
-    if (el) {
-      el.values.push(x)
-    } else {
-      rv.push({ key: v, values: [x] })
-    }
-    return rv
-  }, [])
 
 const createToggles = a =>
   uniques(a).reduce((x, y) => {
@@ -93,11 +82,27 @@ const toggle = (toggles, k) =>
 const appendData = events =>
   events.map(x => ({
     ...x,
-    date: new Date(new Date(x.start).setHours(0, 0, 0, 0)),
+    date: DatePart(new Date(x.start)),
     day: days[(new Date(x.start).getDay() + 6) % 7],
     clientAndLocation: x.client + " " + x.location,
     highlighted: false,
   }))
+
+const generateDates = (startDate, endDate) => {
+  var retVal = [];
+  var current = new Date(startDate);
+ 
+  while (current <= endDate) {
+    retVal.push(new Date(current));
+    var date = new Date(current.valueOf());
+    date.setDate(date.getDate() + 1);
+    current = date;
+  }
+ 
+  return retVal;
+}
+
+const DatePart = (d) => new Date(d.setHours(0,0,0,0));
 
 const Events = props => {
   const [events, setEvents] = useState(appendData(props.pageContext.events))
@@ -105,6 +110,8 @@ const Events = props => {
   const [summaryToggles, setSummaryToggles] = useState(createToggles(events.map(x => x.summary)))
   const [locationToggles, setLocationToggles] = useState(createToggles(events.map(x => x.clientAndLocation)))
   const [dayToggles, setDayToggles] = useState(createToggles(days))
+  const dates = generateDates(DatePart(new Date()), DatePart(new Date(Math.max.apply(null, events.map((e) => e.date)))));
+  console.log(dates);
   // const [dateFilter, setDateFilter] = useState({
   //     check: (e) => e.start >= this.dates[this.active],
   //     dayNames: [0,1,2,3,4,5,6].map(x=>days[(x+todayIndex)%7]),
@@ -144,8 +151,6 @@ const Events = props => {
   // }
 
   //
-
-  const removePassedEvents = events => events.filter((e) => e.date >= new Date(new Date().setHours(0,0,0,0)));
   
   const highlightEvents = events => {
     events.forEach(e => {
@@ -176,16 +181,26 @@ const Events = props => {
       <ToggleFilter toggles={summaryToggles} onToggle={k => setSummaryToggles(toggle(summaryToggles, k))}></ToggleFilter>
       <ToggleFilter toggles={locationToggles} onToggle={k => setLocationToggles(toggle(locationToggles, k))}></ToggleFilter>
       <ToggleFilter toggles={dayToggles} onToggle={k => setDayToggles(toggle(dayToggles, k))}></ToggleFilter>
-      {groupBy(highlightEvents(removePassedEvents(events)), e => e.date.toString()).map(g => {
+      {dates.map((d) => {
+      return (<div key={d.toString()}>
+        <p style={{backgroundColor: "white"}}>{days[getDayIndex(d.getDay())]}: {d.getDate()}/{d.getMonth()+1}</p>
+        {
+          highlightEvents(events.filter(e => e.date.getTime() == d.getTime())).map(e => (
+            <Event key={e.location + e.start} event={e}></Event>
+          ))
+        }
+      </div>)})
+      }
+      {/* {groupBy(highlightEvents(events), e => e.date.toString()).map(g => {
         return (
           <div key={g.key.toString()}>
-            <p style={{backgroundColor: "white"}}>{days[getDayIndex(new Date(g.key).getDay())]}: {new Date(g.key).getDate()}/{new Date(g.key).getMonth()+1}</p>
+            
             {g.values.map(e => (
               <Event key={e.location + e.start} event={e}></Event>
             ))}
           </div>
         )
-      })}
+      })} */}
     </Layout>
   )
 }
