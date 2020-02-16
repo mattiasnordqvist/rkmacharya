@@ -3,9 +3,10 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import logo from "../styles/HOME_rkm.ACHARYAYoga_Solo.jpg"
 import 'bootstrap/dist/css/bootstrap.min.css';
+import  Table  from "./table";
 
 var classNames = require("classnames")
-const getDayIndex = (day) => (day+6)%7;
+const getDayIndex = (day) => (day + 6) % 7;
 
 var todayIndex = getDayIndex(new Date().getDay());
 
@@ -37,32 +38,146 @@ const formatTime = dateTime =>
     hour12: false,
   })
 
-  function Event({ event }) {
-    return (
-      
-      <div className="col-12 col-sm-6 col-md-4 mb-4" >
-        <div className={classNames({  highlighted: event.highlighted, event: true, card: true })}>
-          <img className="card-img-top" src={logo} />
-          <div className="card-body">
-  
-            <h2 className="card-title">
-              {event.summary}
-            </h2>
-            <a href={`https://maps.google.com/?q=${event.address}`}>
-              {event.client} {event.location}
-            </a>
-            <div className="card-text">
-              {event.cancelled && <h4>Cancelled :(</h4>}
-                <h4>{event.teacher}</h4>
-              {event.day} {formatTime(event.start)} - {formatTime(event.end)}
-            </div>
-            
-              
+function Event({ event }) {
+  return (
+
+
+    <div className="card">
+      <div className={classNames({ highlighted: event.highlighted, event: true, card: true })}>
+        <div className="card-body">
+
+          <h4 className="card-title">
+            {event.summary}
+          </h4>
+          <a href={`https://maps.google.com/?q=${event.address}`}>
+            {event.client} {event.location}
+          </a>
+          <div className="card-text">
+            {event.cancelled && <h6>Cancelled :(</h6>}
+            <h6>{event.teacher}</h6>
+           <p> {event.day} {formatTime(event.start)} - {formatTime(event.end)}</p>
           </div>
-  
+
+
         </div>
-      </div>)
+
+      </div>
+    </div>
+  )
+}
+const buildRow = (data) => {
+    
+  let monday = [];
+  let tuesday = [];
+  let wednesday = [];
+  let thursday = [];
+  let friday = [];
+  let saturday = [];
+  let sunday = [];
+ 
+  for(let key in data){
+    var d = new Date(key);
+    switch(d.getDay()){
+      case 0:
+      monday.push(
+        data[key].map((object,i) => <Event key={object.location + object.start} event={object}/>)
+        )
+      break;
+      
+      case 1:
+      tuesday.push(
+        data[key].map((object,i) => <Event key={object.location + object.start} event={object}/>)
+        )
+      break;
+      
+      case 2:
+      wednesday.push(data[key].map((object,i) =><Event key={object.location + object.start} event={object}/>))
+      break;
+      
+      case 3:
+      thursday.push(data[key].map((object,i) => <Event key={object.location + object.start} event={object}/>))
+      break;
+      
+      case 4:
+      friday.push(data[key].map((object,i) =><Event key={object.location + object.start} event={object}/>))
+      break;
+      
+      case 5:
+      saturday.push(data[key].map((object,i) => <Event key={object.location + object.start} event={object}/>))
+      break;
+      
+      case 6:
+      sunday.push(data[key].map((object,i) => <Event key={object.location + object.start} event={object}/>))
+      break;
+    }
   }
+    return(
+      <tr>
+        <td>
+        {monday}
+        </td>
+        <td>
+          {tuesday}
+        </td>
+        <td>
+        {wednesday}
+        </td>
+        <td>
+          {thursday}
+        </td>
+        <td>
+        {friday}
+        </td>
+        <td>
+          {saturday}
+        </td>
+        <td>
+        {sunday}
+        </td>
+      </tr>
+    )
+  }
+  const buildHeader = (header) => {
+    
+    let th = header.map((k, index) => {
+      var d = new Date(k);
+      if(index === 7){
+        return
+      }
+      return <th key={index}>{d.toDateString()}</th>  
+    })
+    return (
+      <tr>{th}</tr>
+    )
+  }
+
+const GetRowsData = ({ events }) => {
+  const grouped = {}
+
+  const max = new Date();
+  max.setDate(new Date().getDate() + 7)
+  const dates = generateDates(DatePart(new Date()), DatePart(max));
+ 
+  dates.map(obj => {
+    const apa = Object.values(events).filter(event => event.date.getTime() === obj.getTime());
+    const sent = apa.filter(d => d.date < max)
+    grouped[obj] = sent;
+  })
+  return (
+  <table className="table table-responsive">
+  <thead>
+    {buildHeader(Object.keys(grouped))}
+  </thead>
+  <tbody>
+    {buildRow(grouped)}
+  </tbody>
+</table>
+)
+  
+}
+
+
+
 
 const ToggleFilter = ({ toggles, onToggle }) => {
   return (
@@ -86,7 +201,7 @@ const toggle = (toggles, k) =>
   Object.assign(
     {},
     toggles,
-    (function(attr, val) {
+    (function (attr, val) {
       var a = {}
       a[attr] = val
       return a
@@ -104,18 +219,19 @@ const appendData = events =>
 const generateDates = (startDate, endDate) => {
   var retVal = [];
   var current = new Date(startDate);
- 
+
   while (current <= endDate) {
     retVal.push(new Date(current));
     var date = new Date(current.valueOf());
     date.setDate(date.getDate() + 1);
     current = date;
   }
- 
+  
   return retVal;
 }
 
-const DatePart = (d) => new Date(d.setHours(0,0,0,0));
+
+const DatePart = (d) => new Date(d.setHours(0, 0, 0, 0));
 
 const Events = props => {
   const [events, setEvents] = useState(appendData(props.pageContext.events))
@@ -124,7 +240,8 @@ const Events = props => {
   const [locationToggles, setLocationToggles] = useState(createToggles(events.map(x => x.clientAndLocation)))
   const [dayToggles, setDayToggles] = useState(createToggles(days))
   const dates = generateDates(DatePart(new Date()), DatePart(new Date(Math.max.apply(null, events.map((e) => e.date)))));
-  console.log(dates);
+  
+  
   // const [dateFilter, setDateFilter] = useState({
   //     check: (e) => e.start >= this.dates[this.active],
   //     dayNames: [0,1,2,3,4,5,6].map(x=>days[(x+todayIndex)%7]),
@@ -164,7 +281,7 @@ const Events = props => {
   // }
 
   //
-  
+
   const highlightEvents = events => {
     events.forEach(e => {
       var anyfilter = false;
@@ -185,7 +302,7 @@ const Events = props => {
         e.highlighted &= dayToggles[e.day]
         anyfilter = true;
       }
-      if(!anyfilter){
+      if (!anyfilter) {
         e.highlighted = false;
       }
     })
@@ -199,19 +316,38 @@ const Events = props => {
       <ToggleFilter toggles={summaryToggles} onToggle={k => setSummaryToggles(toggle(summaryToggles, k))}></ToggleFilter>
       <ToggleFilter toggles={locationToggles} onToggle={k => setLocationToggles(toggle(locationToggles, k))}></ToggleFilter>
       <ToggleFilter toggles={dayToggles} onToggle={k => setDayToggles(toggle(dayToggles, k))}></ToggleFilter>
+      <GetRowsData events={events}/>
+      
+     
       {dates.map((d) => {
-      return (<div key={d.toString()}>
-        <p style={{backgroundColor: "white"}}>{days[getDayIndex(d.getDay())]}: {d.getDate()}/{d.getMonth()+1}</p>
-        <div className= "row">
-        {
-          highlightEvents(events.filter(e => e.date.getTime() == d.getTime())).map(e => (
-            
-            <Event key={e.location + e.start} event={e}></Event>
-            
-          ))
-        }</div>
-      </div>)})
+        
+        {highlightEvents(events.filter(e => e.date.getTime() == d.getTime()))}
+
+          {/* <div className="row">
+            {
+              highlightEvents(events.filter(e => e.date.getTime() == d.getTime())).map(e => (
+                
+                
+              ))
+            }</div> */}
+
+      }) 
       }
+      
+  
+      {/* {dates.map((d,i) => {
+        return (
+            
+
+          <div key={d.toString()}className="row">
+            {
+              highlightEvents(events.filter(e => e.date.getTime() == d.getTime())).map(e => (
+                <GetRowsData events={events}/>
+              ))
+            }</div>
+        )
+      })
+      } */}
       {/* {groupBy(highlightEvents(events), e => e.date.toString()).map(g => {
         return (
           <div key={g.key.toString()}>
@@ -227,3 +363,5 @@ const Events = props => {
 }
 
 export default Events
+
+
