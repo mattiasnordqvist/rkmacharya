@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import logo from "../styles/HOME_rkm.ACHARYAYoga_Solo.jpg"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import  Table  from "./table";
+import { Form,Accordion,Card,Button,Image } from "react-bootstrap";
+
 
 var classNames = require("classnames")
 const getDayIndex = (day) => (day + 6) % 7;
@@ -77,7 +77,7 @@ const buildRow = (data) => {
  
   for(let key in data){
     var d = new Date(key);
-    switch(d.getDay()){
+    switch(d.getDay() -1){
       case 0:
       monday.push(
         data[key].map((object,i) => <Event key={object.location + object.start} event={object}/>)
@@ -112,11 +112,11 @@ const buildRow = (data) => {
     }
   }
     return(
-      <tr>
-        <td>
+      <tr >
+        <td className="d-none d-sm-table-cell">
         {monday}
-        </td>
-        <td>
+        </td >
+        <td className="d-none d-sm-table-cell">
           {tuesday}
         </td>
         <td>
@@ -144,6 +144,7 @@ const buildRow = (data) => {
       if(index === 7){
         return
       }
+
       return <th key={index}>{d.toDateString()}</th>  
     })
     return (
@@ -164,8 +165,11 @@ const GetRowsData = ({ events }) => {
     grouped[obj] = sent;
   })
   return (
-  <table className="table table-responsive">
-  <thead>
+  <table className="table table-responsive" style={{marginTop: 10}}>
+    <h3>
+      Kommande 7 dagar
+    </h3>
+  <thead >
     {buildHeader(Object.keys(grouped))}
   </thead>
   <tbody>
@@ -181,13 +185,21 @@ const GetRowsData = ({ events }) => {
 
 const ToggleFilter = ({ toggles, onToggle }) => {
   return (
-    <div>
-      {Object.keys(toggles).map(k => (
-        <button type="button" key={k} onClick={() => onToggle(k)}>
-          {k} - {toggles[k] ? "yes" : "no"}
-        </button>
+    <Form >
+       {Object.keys(toggles).map(k => (
+        
+        <div key={k} className="mb-3 form-check form-check-inline" >
+        <Form.Check 
+           onClick={() => onToggle(k)}
+          label={`${k}`}
+        />
+      </div>
+     
+        // <button type="button" key={k} onClick={() => onToggle(k)}>
+        //   {k} - {toggles[k] ? "yes" : "no"}
+        // </button>
       ))}
-    </div>
+      </Form>
   )
 }
 
@@ -308,30 +320,33 @@ const Events = props => {
     })
     return events
   }
-
   return (
     <Layout>
       <SEO title="Home"></SEO>
-      <ToggleFilter toggles={teacherToggles} onToggle={k => setTeacherToggles(toggle(teacherToggles, k))}></ToggleFilter>
-      <ToggleFilter toggles={summaryToggles} onToggle={k => setSummaryToggles(toggle(summaryToggles, k))}></ToggleFilter>
-      <ToggleFilter toggles={locationToggles} onToggle={k => setLocationToggles(toggle(locationToggles, k))}></ToggleFilter>
-      <ToggleFilter toggles={dayToggles} onToggle={k => setDayToggles(toggle(dayToggles, k))}></ToggleFilter>
+     
+      <Accordion>
+      
+            <Accordion.Toggle  className="Filter" as={Button} eventKey="0" variant="light">
+            <Image src={require("../styles/filter.png")} style={{marginTop: 20}}/>
+              Filtrera
+           </Accordion.Toggle>
+         
+          <Accordion.Collapse eventKey="0">
+            <Card.Body>
+              <ToggleFilter toggles={teacherToggles} onToggle={k => setTeacherToggles(toggle(teacherToggles, k))}></ToggleFilter>
+              <ToggleFilter toggles={summaryToggles} onToggle={k => setSummaryToggles(toggle(summaryToggles, k))}></ToggleFilter>
+              <ToggleFilter toggles={locationToggles} onToggle={k => setLocationToggles(toggle(locationToggles, k))}></ToggleFilter>
+              <ToggleFilter toggles={dayToggles} onToggle={k => setDayToggles(toggle(dayToggles, k))}></ToggleFilter>
+            </Card.Body>
+          </Accordion.Collapse>
+        
+      </Accordion>
       <GetRowsData events={events}/>
       
      
       {dates.map((d) => {
-        
-        {highlightEvents(events.filter(e => e.date.getTime() == d.getTime()))}
-
-          {/* <div className="row">
-            {
-              highlightEvents(events.filter(e => e.date.getTime() == d.getTime())).map(e => (
-                
-                
-              ))
-            }</div> */}
-
-      }) 
+        {highlightEvents(events.filter(e => e.date.getTime() == d.getTime()))}     
+       }) 
       }
       
   
