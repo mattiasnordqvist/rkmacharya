@@ -45,17 +45,17 @@ function Event({ event }) {
     <div className="card">
       <div className={classNames({ highlighted: event.highlighted, event: true, card: true })}>
         <div className="card-body">
-
-          <h4 className="card-title">
+          <h5 className="card-title">
             {event.summary}
-          </h4>
+          </h5>
+          <div className="a">
           <a href={`https://maps.google.com/?q=${event.address}`}>
             {event.client} {event.location}
-          </a>
+          </a></div>
           <div className="card-text">
             {event.cancelled && <h6>Cancelled :(</h6>}
             <h6>{event.teacher}</h6>
-           <p> {event.day} {formatTime(event.start)} - {formatTime(event.end)}</p>
+           <p style={{fontSize: 14}}>{event.day} {formatTime(event.start)} - {formatTime(event.end)}</p>
           </div>
 
 
@@ -67,73 +67,22 @@ function Event({ event }) {
 }
 const buildRow = (data) => {
     
-  let monday = [];
-  let tuesday = [];
-  let wednesday = [];
-  let thursday = [];
-  let friday = [];
-  let saturday = [];
-  let sunday = [];
- 
+  
+  let table = []
+
   for(let key in data){
-    var d = new Date(key);
-    switch(d.getDay() -1){
-      case 0:
-      monday.push(
-        data[key].map((object,i) => <Event key={object.location + object.start} event={object}/>)
-        )
-      break;
-      
-      case 1:
-      tuesday.push(
-        data[key].map((object,i) => <Event key={object.location + object.start} event={object}/>)
-        )
-      break;
-      
-      case 2:
-      wednesday.push(data[key].map((object,i) =><Event key={object.location + object.start} event={object}/>))
-      break;
-      
-      case 3:
-      thursday.push(data[key].map((object,i) => <Event key={object.location + object.start} event={object}/>))
-      break;
-      
-      case 4:
-      friday.push(data[key].map((object,i) =><Event key={object.location + object.start} event={object}/>))
-      break;
-      
-      case 5:
-      saturday.push(data[key].map((object,i) => <Event key={object.location + object.start} event={object}/>))
-      break;
-      
-      case 6:
-      sunday.push(data[key].map((object,i) => <Event key={object.location + object.start} event={object}/>))
-      break;
-    }
+    console.log( "hej " ,key)
+    let children = []
+    //Inner loop to create children
+    data[key].map((object,i) =>{
+      children.push(<Event key={object.location + object.start} event={object}/>)
+    })
+   
+    table.push(<td>{children}</td>)
   }
     return(
-      <tr >
-        <td className="d-none d-sm-table-cell">
-        {monday}
-        </td >
-        <td className="d-none d-sm-table-cell">
-          {tuesday}
-        </td>
-        <td>
-        {wednesday}
-        </td>
-        <td>
-          {thursday}
-        </td>
-        <td>
-        {friday}
-        </td>
-        <td>
-          {saturday}
-        </td>
-        <td>
-        {sunday}
-        </td>
+      <tr>
+        {table}
       </tr>
     )
   }
@@ -326,7 +275,7 @@ const Events = props => {
      
       <Accordion>
       
-            <Accordion.Toggle  className="Filter" as={Button} eventKey="0" variant="light">
+            <Accordion.Toggle as={Button} eventKey="0" variant=" btn-sm light">
             <Image src={require("../styles/filter.png")} style={{marginTop: 20}}/>
               Filtrera
            </Accordion.Toggle>

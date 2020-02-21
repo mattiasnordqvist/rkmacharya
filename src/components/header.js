@@ -11,7 +11,7 @@ const Header = ({ siteTitle }) => (
     }}
   >
     <div
-      style={{
+      style={{ 
         margin: `0 auto`,
         maxWidth: 960,
         padding: `1.45rem 1.0875rem`,
@@ -25,7 +25,7 @@ const Header = ({ siteTitle }) => (
             textDecoration: `none`,
           }}
         >
-          {siteTitle}
+          {"RKM Acharya Yoga"}
         </Link>
       </h1>
     </div>
