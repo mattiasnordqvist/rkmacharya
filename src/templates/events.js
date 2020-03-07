@@ -40,17 +40,22 @@ const formatTime = dateTime =>
   })
 
 function Event({ event }) {
+  var diffMs = new Date(event.end) - new Date(event.start);
+  var diffMins = Math.round(diffMs / 60000);
   return (
-    <div className={classNames({ event: true, highlighted: event.highlighted })}>
-      <h3>
-        {event.summary} -{" "}
-        <a href={`https://maps.google.com/?q=${event.address}`}>
+    <div className={classNames({ cancelled: event.cancelled, event: true, dehighlighted: event.highlighted })}>
+      <div className="class-time">
+        <span className="class-time-start">{formatTime(event.start)}</span>
+        <span className="class-time-duration"> {diffMins} min</span>
+      </div>
+      <div>
+        {event.summary}
+      </div>
+      <div>
+      <a href={`https://maps.google.com/?q=${event.address}`}>
           {event.client} {event.location}
         </a>
-      </h3>
-      {event.cancelled && <h4>Cancelled :(</h4>}
-      <h4>{event.teacher}</h4>
-      {/* {event.day} {formatTime(event.start)} - {formatTime(event.end)} */}
+      </div>
     </div>
   )
 }
@@ -175,6 +180,8 @@ const Events = props => {
         e.highlighted &= dayToggles[e.day]
         anyfilter = true;
       }
+      
+      e.highlighted = !e.highlighted;
       if(!anyfilter){
         e.highlighted = false;
       }
@@ -185,32 +192,32 @@ const Events = props => {
   return (
     <Layout>
       <SEO title="Home"></SEO>
-      {/* <ToggleFilter toggles={teacherToggles} onToggle={k => setTeacherToggles(toggle(teacherToggles, k))}></ToggleFilter>
+      <ToggleFilter toggles={teacherToggles} onToggle={k => setTeacherToggles(toggle(teacherToggles, k))}></ToggleFilter>
       <ToggleFilter toggles={summaryToggles} onToggle={k => setSummaryToggles(toggle(summaryToggles, k))}></ToggleFilter>
       <ToggleFilter toggles={locationToggles} onToggle={k => setLocationToggles(toggle(locationToggles, k))}></ToggleFilter>
-      <ToggleFilter toggles={dayToggles} onToggle={k => setDayToggles(toggle(dayToggles, k))}></ToggleFilter> */}
-      <div className="schedule-week">
-      {dates.slice(0,7).map((d) => {
-        var eventsOnDate = events.filter(e => e.date.getTime() == d.getTime())
-        return (
-        <div className="schedule-column" key={d.toString()}>
-          <div className="schedule-date">
-            <span className="date-box">{d.getDate()} {monthNames[d.getMonth()]}</span>
-            <span className="day-box">{dayNames[getDayIndex(d.getDay())]}</span>
-          </div>
-          <div className="schedule-classes">
-            {eventsOnDate.length==0 && <div>No classes</div>}
-            {
-            highlightEvents(events.filter(e => e.date.getTime() == d.getTime())).map(e => (
-              <Event key={e.location + e.start} event={e}></Event>
-            ))
-          }
-          </div>
-          {/* <p style={{backgroundColor: "white"}}>{dayNames[getDayIndex(d.getDay())]}: {d.getDate()}/{d.getMonth()+1}</p> */}
-         
-      </div>)})
-      }
-      </div>
+      <ToggleFilter toggles={dayToggles} onToggle={k => setDayToggles(toggle(dayToggles, k))}></ToggleFilter>
+      <section className="schedule">
+        <div className="schedule-week">
+        {dates.slice(0,7).map((d) => {
+          var eventsOnDate = events.filter(e => e.date.getTime() == d.getTime())
+          return (
+          <div className="schedule-column" key={d.toString()}>
+            <div className="schedule-date">
+              <span className="date-box">{d.getDate()} {monthNames[d.getMonth()]}</span>
+              <span className="day-box">{dayNames[getDayIndex(d.getDay())]}</span>
+            </div>
+            <div className="schedule-classes">
+              {eventsOnDate.length==0 && <div className="schedule-classes-empty">No classes</div>}
+              {
+              highlightEvents(events.filter(e => e.date.getTime() == d.getTime())).map(e => (
+                <Event key={e.location + e.start} event={e}></Event>
+              ))
+            }
+            </div>
+        </div>)})
+        }
+        </div>
+      </section>
     </Layout>
   )
 }
