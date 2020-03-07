@@ -8,7 +8,7 @@ const getDayIndex = (day) => (day+6)%7;
 var todayIndex = getDayIndex(new Date().getDay());
 
 
-const days = [
+const dayNames = [
   "Monday",
   "Tuesday",
   "Wednesday",
@@ -17,6 +17,10 @@ const days = [
   "Saturday",
   "Sunday",
 ]
+
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
 const uniques = function(arr) {
   var a = []
@@ -46,7 +50,7 @@ function Event({ event }) {
       </h3>
       {event.cancelled && <h4>Cancelled :(</h4>}
       <h4>{event.teacher}</h4>
-      {event.day} {formatTime(event.start)} - {formatTime(event.end)}
+      {/* {event.day} {formatTime(event.start)} - {formatTime(event.end)} */}
     </div>
   )
 }
@@ -83,7 +87,7 @@ const appendData = events =>
   events.map(x => ({
     ...x,
     date: DatePart(new Date(x.start)),
-    day: days[(new Date(x.start).getDay() + 6) % 7],
+    day: dayNames[(new Date(x.start).getDay() + 6) % 7],
     clientAndLocation: x.client + " " + x.location,
     highlighted: false,
   }))
@@ -109,7 +113,7 @@ const Events = props => {
   const [teacherToggles, setTeacherToggles] = useState(createToggles(events.map(x => x.teacher)))
   const [summaryToggles, setSummaryToggles] = useState(createToggles(events.map(x => x.summary)))
   const [locationToggles, setLocationToggles] = useState(createToggles(events.map(x => x.clientAndLocation)))
-  const [dayToggles, setDayToggles] = useState(createToggles(days))
+  const [dayToggles, setDayToggles] = useState(createToggles(dayNames))
   const dates = generateDates(DatePart(new Date()), DatePart(new Date(Math.max.apply(null, events.map((e) => e.date)))));
   // const [dateFilter, setDateFilter] = useState({
   //     check: (e) => e.start >= this.dates[this.active],
@@ -181,20 +185,32 @@ const Events = props => {
   return (
     <Layout>
       <SEO title="Home"></SEO>
-      <ToggleFilter toggles={teacherToggles} onToggle={k => setTeacherToggles(toggle(teacherToggles, k))}></ToggleFilter>
+      {/* <ToggleFilter toggles={teacherToggles} onToggle={k => setTeacherToggles(toggle(teacherToggles, k))}></ToggleFilter>
       <ToggleFilter toggles={summaryToggles} onToggle={k => setSummaryToggles(toggle(summaryToggles, k))}></ToggleFilter>
       <ToggleFilter toggles={locationToggles} onToggle={k => setLocationToggles(toggle(locationToggles, k))}></ToggleFilter>
-      <ToggleFilter toggles={dayToggles} onToggle={k => setDayToggles(toggle(dayToggles, k))}></ToggleFilter>
-      {dates.map((d) => {
-      return (<div key={d.toString()}>
-        <p style={{backgroundColor: "white"}}>{days[getDayIndex(d.getDay())]}: {d.getDate()}/{d.getMonth()+1}</p>
-        {
-          highlightEvents(events.filter(e => e.date.getTime() == d.getTime())).map(e => (
-            <Event key={e.location + e.start} event={e}></Event>
-          ))
-        }
+      <ToggleFilter toggles={dayToggles} onToggle={k => setDayToggles(toggle(dayToggles, k))}></ToggleFilter> */}
+      <div className="schedule-week">
+      {dates.slice(0,7).map((d) => {
+        var eventsOnDate = events.filter(e => e.date.getTime() == d.getTime())
+        return (
+        <div className="schedule-column" key={d.toString()}>
+          <div className="schedule-date">
+            <span className="date-box">{d.getDate()} {monthNames[d.getMonth()]}</span>
+            <span className="day-box">{dayNames[getDayIndex(d.getDay())]}</span>
+          </div>
+          <div className="schedule-classes">
+            {eventsOnDate.length==0 && <div>No classes</div>}
+            {
+            highlightEvents(events.filter(e => e.date.getTime() == d.getTime())).map(e => (
+              <Event key={e.location + e.start} event={e}></Event>
+            ))
+          }
+          </div>
+          {/* <p style={{backgroundColor: "white"}}>{dayNames[getDayIndex(d.getDay())]}: {d.getDate()}/{d.getMonth()+1}</p> */}
+         
       </div>)})
       }
+      </div>
     </Layout>
   )
 }

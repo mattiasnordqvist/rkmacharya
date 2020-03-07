@@ -1,13 +1,54 @@
 html {
-   
+    /* font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; */
+    color: rgb(51, 51, 51);
+}
+.schedule-week {
+    display: flex;
+    background-color: rgb(245, 245, 245);
+    flex-direction: row;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(204, 204, 204);
 }
 
-body {
-    background: url('increation.jpg') no-repeat center center fixed;
-    background-size: cover;
+.schedule-column{
+    width: 14.2857%;
+    padding: 0px 0.4rem;
+}
+.schedule-date {
 }
 
-.event {
+.schedule-classes {
+}
+
+.date-box {
+    display:block;
+    text-align: center;
+    font-size: 0.8rem;
+}
+.day-box{
+    display:block;
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.event{
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 5px;
+    font-size: 0.8rem;
+    position: relative;
+    margin: 0.4rem 0px;
+    padding: 0.5rem;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+.event:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 20px;
+    transition: box-shadow 0.3s ease 0s;
+}
+
+/* .event {
     background-color: white;
     border: 1px solid black;
 }
@@ -28,4 +69,4 @@ body {
        opacity: 1;
        }
 
-      
+       */
