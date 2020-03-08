@@ -61,8 +61,9 @@ function Event({ event }) {
         <span className="class-time-start">{formatTime(event.start)}</span>
         <span className="class-time-duration"> {diffMins} min</span>
       </div>
-      <div>
-        {event.summary}
+      <div className="class-summary">
+        <span className="class-summary-text">{event.summary}</span>
+        <span className="class-summary-teacher">{event.teacher}</span>
       </div>
       <div>
       <a href={`https://maps.google.com/?q=${event.address}`} target="_blank">
