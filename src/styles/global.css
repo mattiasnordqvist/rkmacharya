@@ -18,6 +18,10 @@ html {
     font-weight: 400;
   }
 
+  a {
+      color: #f89623;
+  }
+
 .schedule{
     background-color: rgb(245, 245, 245);
     padding: 2em 2em
@@ -36,7 +40,8 @@ html {
 
 
 .schedule-date {
-    background-color: rgb(255,255,255);
+    /* background-color: rgb(255,255,255); */
+    padding: 0.6rem 0 0.3rem 0;
 }
 
 .schedule-classes {

@@ -65,7 +65,7 @@ function Event({ event }) {
         {event.summary}
       </div>
       <div>
-      <a href={`https://maps.google.com/?q=${event.address}`}>
+      <a href={`https://maps.google.com/?q=${event.address}`} target="_blank">
           {event.client} {event.location}
         </a>
       </div>
