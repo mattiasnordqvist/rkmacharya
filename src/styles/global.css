@@ -1,7 +1,22 @@
 html {
     /* font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; */
     color: rgb(51, 51, 51);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+
 }
+  .w100 {
+    font-weight: 100;
+  }
+  .w200 {
+    font-weight: 200;
+  }
+  .w300 {
+    font-weight: 300;
+  }
+  .w400 {
+    font-weight: 400;
+  }
 
 .schedule{
     background-color: rgb(245, 245, 245);
