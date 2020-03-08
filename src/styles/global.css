@@ -5,6 +5,12 @@ html {
     font-weight: 400;
 
 }
+body{
+    background: url('background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    /* display:flex;
+    align-items: center; */
+}
   .w100 {
     font-weight: 100;
   }
@@ -23,15 +29,15 @@ html {
   }
 
 .schedule{
-    background-color: rgb(245, 245, 245);
-    padding: 2em 2em
+   
+    /* background-color: rgb(245, 245, 245); */
+    padding: 1rem;
 }
 .schedule-week {
-    /* background: url('increation.jpg') no-repeat center center fixed; */
-    background-size: cover;
+
     display: flex;
     flex-direction: column;
-    background-color: rgb(245, 245, 245);
+    background-color: rgba(245, 245, 245,0.8);
     border-width: 1px;
     border-style: solid;
     border-color: rgb(204, 204, 204);
