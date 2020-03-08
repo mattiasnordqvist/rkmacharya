@@ -213,7 +213,7 @@ const Events = props => {
       <ToggleFilter toggles={dayToggles} onToggle={k => setDayToggles(toggle(dayToggles, k))}></ToggleFilter> */}
       <section className="schedule">
         <div className="schedule-week">
-        {offset>0 && <div onClick={() => setOffset(offset-1)} className="day-nav day-nav-prev"><img src={nextArrow}></img></div>}
+        {offset>0 && <div onClick={() => setOffset(offset-1)} className="day-nav day-nav-prev"><img className="noselect" src={nextArrow}></img></div>}
         {dates.slice(offset,7+offset).map((d) => {
           var eventsOnDate = events.filter(e => e.date.getTime() == d.getTime())
           return (
@@ -233,7 +233,7 @@ const Events = props => {
             </div>
         </div>)})
         }
-        {offset+7 < dates.length &&<div onClick={() => setOffset(offset+1)} className="day-nav day-nav-next"><img src={nextArrow}></img></div>}
+        {offset+7 < dates.length &&<div onClick={() => setOffset(offset+1)} className="day-nav day-nav-next"><img className="noselect" src={nextArrow}></img></div>}
         </div>
       </section>
     </Layout>
