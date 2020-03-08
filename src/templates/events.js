@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-
+import nextArrow from "../images/next.png"
 var classNames = require("classnames")
 const getDayIndex = (day) => (day+6)%7;
 
@@ -212,7 +212,7 @@ const Events = props => {
       <ToggleFilter toggles={dayToggles} onToggle={k => setDayToggles(toggle(dayToggles, k))}></ToggleFilter> */}
       <section className="schedule">
         <div className="schedule-week">
-        {offset>0 && <div onClick={() => setOffset(offset-1)} className="day-nav day-nav-prev"><p>{"<"}</p></div>}
+        {offset>0 && <div onClick={() => setOffset(offset-1)} className="day-nav day-nav-prev"><img src={nextArrow}></img></div>}
         {dates.slice(offset,7+offset).map((d) => {
           var eventsOnDate = events.filter(e => e.date.getTime() == d.getTime())
           return (
@@ -232,7 +232,7 @@ const Events = props => {
             </div>
         </div>)})
         }
-        {offset+7 < dates.length &&<div onClick={() => setOffset(offset+1)} className="day-nav day-nav-next"><p>{">"}</p></div>}
+        {offset+7 < dates.length &&<div onClick={() => setOffset(offset+1)} className="day-nav day-nav-next"><img src={nextArrow}></img></div>}
         </div>
       </section>
     </Layout>

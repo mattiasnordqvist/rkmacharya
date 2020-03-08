@@ -74,17 +74,25 @@ html {
     height: 100%;
     z-index: 1000;
 }
-.day-nav p {
-    
+
+.day-nav img {
+    opacity: 0.5;
 }
+
+.day-nav img:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s ease 0s;
+}
+
 .day-nav:hover {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.5);
     transition: background-color 0.3s ease 0s;
-    transition: width 0.3s ease 0s;
-    width:3em;
+    transition: width 0.3s ease 0s; 
+    width:2em;
 }
 
 .day-nav-prev {
+    transform: rotate(180deg);
 }
 .day-nav-next {
     right: 0rem;
