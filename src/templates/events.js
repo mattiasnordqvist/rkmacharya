@@ -7,6 +7,19 @@ const getDayIndex = (day) => (day+6)%7;
 
 var todayIndex = getDayIndex(new Date().getDay());
 
+const isToday = (someDate) => {
+  const today = new Date()
+  return someDate.getDate() == today.getDate() &&
+    someDate.getMonth() == today.getMonth() &&
+    someDate.getFullYear() == today.getFullYear()
+}
+
+const getDayName = (d) => {
+  if(isToday(d)){
+    return "Today";
+  }
+  return dayNames[getDayIndex(d.getDay())];
+}
 
 const dayNames = [
   "Monday",
@@ -114,6 +127,7 @@ const generateDates = (startDate, endDate) => {
 const DatePart = (d) => new Date(d.setHours(0,0,0,0));
 
 const Events = props => {
+  const [offset, setOffset] = useState(0);
   const [events, setEvents] = useState(appendData(props.pageContext.events))
   const [teacherToggles, setTeacherToggles] = useState(createToggles(events.map(x => x.teacher)))
   const [summaryToggles, setSummaryToggles] = useState(createToggles(events.map(x => x.summary)))
@@ -192,19 +206,21 @@ const Events = props => {
   return (
     <Layout>
       <SEO title="Home"></SEO>
-      <ToggleFilter toggles={teacherToggles} onToggle={k => setTeacherToggles(toggle(teacherToggles, k))}></ToggleFilter>
+      {/* <ToggleFilter toggles={teacherToggles} onToggle={k => setTeacherToggles(toggle(teacherToggles, k))}></ToggleFilter>
       <ToggleFilter toggles={summaryToggles} onToggle={k => setSummaryToggles(toggle(summaryToggles, k))}></ToggleFilter>
       <ToggleFilter toggles={locationToggles} onToggle={k => setLocationToggles(toggle(locationToggles, k))}></ToggleFilter>
-      <ToggleFilter toggles={dayToggles} onToggle={k => setDayToggles(toggle(dayToggles, k))}></ToggleFilter>
+      <ToggleFilter toggles={dayToggles} onToggle={k => setDayToggles(toggle(dayToggles, k))}></ToggleFilter> */}
       <section className="schedule">
         <div className="schedule-week">
-        {dates.slice(0,7).map((d) => {
+        {offset>0 && <div onClick={() => setOffset(offset-1)} className="day-nav day-nav-prev"><p>{"<"}</p></div>}
+        {dates.slice(offset,7+offset).map((d) => {
           var eventsOnDate = events.filter(e => e.date.getTime() == d.getTime())
           return (
           <div className="schedule-column" key={d.toString()}>
+            
             <div className="schedule-date">
               <span className="date-box">{d.getDate()} {monthNames[d.getMonth()]}</span>
-              <span className="day-box">{dayNames[getDayIndex(d.getDay())]}</span>
+              <span className="day-box">{getDayName(d)}</span>
             </div>
             <div className="schedule-classes">
               {eventsOnDate.length==0 && <div className="schedule-classes-empty">No classes</div>}
@@ -216,6 +232,7 @@ const Events = props => {
             </div>
         </div>)})
         }
+        {offset+7 < dates.length &&<div onClick={() => setOffset(offset+1)} className="day-nav day-nav-next"><p>{">"}</p></div>}
         </div>
       </section>
     </Layout>

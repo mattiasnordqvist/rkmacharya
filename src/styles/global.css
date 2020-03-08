@@ -5,30 +5,26 @@ html {
 
 .schedule{
     background-color: rgb(245, 245, 245);
-    padding: 2em 10em
+    padding: 2em 2em
 }
 .schedule-week {
     background: url('increation.jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
+    flex-direction: column;
     background-color: rgb(245, 245, 245);
-    flex-direction: row;
     border-width: 1px;
     border-style: solid;
     border-color: rgb(204, 204, 204);
 }
 
-.schedule-column{
-    
-    width: 14.2857%;
-}
+
 .schedule-date {
     background-color: rgb(255,255,255);
 }
 
 .schedule-classes {
     padding: 0px 0.4rem;
-
 }
 
 .schedule-classes-empty {
@@ -40,7 +36,6 @@ html {
     box-sizing: border-box;
 }
 .class-time{
-    
     display: flex;
     -webkit-box-pack: justify;
     justify-content: space-between;
@@ -48,16 +43,30 @@ html {
 .class-time-start {
     color: rgb(51, 51, 51);
     font-size: 0.8rem;
-    /* margin: 0.4rem 0px;
-    padding: 0.5rem; */
 }
 
 .class-time-duration {
     color: rgb(51, 51, 51);
     font-size: 0.6rem;
     position: relative;
-    /* margin: 0.4rem 0px;
-    padding: 0.5rem; */
+}
+.day-nav {
+    background-color: rgba(255, 255, 255, 0.5);
+    min-width: 2rem;
+    display: none;
+}
+.day-nav p {
+    
+}
+.day-nav:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: background-color 0.3s ease 0s;
+}
+
+.day-nav-prev {
+   
+}
+.day-nav-next {
 }
 
 .date-box {
@@ -72,7 +81,7 @@ html {
     font-size: 1.2rem;
 }
 
-.event{
+.event {
     background-color: rgb(255, 255, 255);
     box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 5px;
     font-size: 0.8rem;
@@ -115,3 +124,15 @@ html {
        }
 
        */
+
+       @media (min-width: 48em){
+        .schedule-column {
+            width: 14.2857%;
+        }
+        .schedule-week {
+            flex-direction: row;
+        }
+        .day-nav {
+            display: block;
+        }
+    }
