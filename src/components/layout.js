@@ -29,6 +29,7 @@ const Layout = ({ children }) => {
       <div>
         <main>{children}</main>
         <footer>
+          {/* <a href="https://github.com/mattiasnordqvist">Developed by </a> */}
         </footer>
       </div>
     </>
