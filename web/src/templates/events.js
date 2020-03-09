@@ -200,6 +200,9 @@ const Events = props => {
       if(!anyfilter){
         e.highlighted = false;
       }
+      if(new Date(e.start) < new Date()){
+        e.highlighted = true;
+      }
     })
     return events
   }
@@ -226,7 +229,7 @@ const Events = props => {
             <div className="schedule-classes">
               {eventsOnDate.length==0 && <div className="schedule-classes-empty">No classes</div>}
               {
-              highlightEvents(events.filter(e => e.date.getTime() == d.getTime())).map(e => (
+              highlightEvents(eventsOnDate).map(e => (
                 <Event key={e.location + e.start} event={e}></Event>
               ))
             }
