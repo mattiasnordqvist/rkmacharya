@@ -50,10 +50,12 @@ exports.createPages = async ({ actions: { createPage } }) => {
             location: find('L', x.description),
             substitute: !!find('S', x.description),
             client: clients.find(c => c.name == find('C', x.description)) ? clients.find(c => c.name == find('C', x.description)).publicName : null,
-            cancelled: find('I', x.description)
+            cancelledReason: find('I', x.description),
+            cancelled: find('I', x.description) !== undefined || find('I', x.description) == ""
         })))
         .filter(x => !!x.client);
     }));
+    
     events = events.sort((a,b) => Date.parse(a.start) - Date.parse(b.start));
     
     createPage({
