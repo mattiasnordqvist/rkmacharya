@@ -66,9 +66,13 @@ function Event({ event }) {
         <span className="class-summary-teacher">{event.teacher}</span>
       </div>
       <div>
-      <a href={`https://maps.google.com/?q=${event.address}`} target="_blank">
+      
+      {!event.isWebinar && <a href={`https://maps.google.com/?q=${event.address}`} target="_blank">
           {event.client} {event.location}
-        </a>
+        </a>}
+      {event.isWebinar && <a href={event.address} target="_blank">
+        Zoom (online)
+      </a>}
       </div>
     </div>
   )
