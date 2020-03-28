@@ -45,13 +45,9 @@ exports.createPages = async ({ actions: { createPage } }) => {
             
             console.log(x.description);
             var location = find('L', x.description);
-            
-            var address = x.location;
             var isWebinar = (!!location) ? location.startsWith("http") : false;
+            var address = isWebinar ? location : x.location;
             var client = isWebinar ? find('C', x.description) : (clients.find(c => c.name == find('C', x.description)) ? clients.find(c => c.name == find('C', x.description)).publicName : null);
-            console.log(isWebinar);
-            console.log(location);
-            console.log(client);
             return {
                 teacher: find('S', x.description) || cdata[0],
                 start: x.start.dateTime,
