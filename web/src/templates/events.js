@@ -71,7 +71,7 @@ function Event({ event }) {
           {event.client} {event.location}
         </a>}
       {event.isWebinar && <a href={event.address} target="_blank">
-        Zoom (online)
+          {event.client} (online)
       </a>}
       </div>
     </div>

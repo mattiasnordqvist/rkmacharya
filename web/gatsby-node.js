@@ -23,7 +23,8 @@ const api = google.calendar({version : "v3", auth: auth});
 var find = function(what, where)
 {
     return (where || "")
-        .split("\n")
+        .split(/\n|\r|(<br>)/)
+        .filter(x => !!x)
         .filter(x => x.trim().startsWith(what+":"))
         .map(x => x.trim().substring(2).trim()).shift();
 }
@@ -40,20 +41,32 @@ exports.createPages = async ({ actions: { createPage } }) => {
     var events = [];
     await Promise.all(calendarsResponse.data.values.map(async cdata => {
         var response = await api.events.list({calendarId : cdata[1], singleEvents: true, timeMin: from.toISOString(), timeMax: to.toISOString(), maxResults: 1000 });
-        events = events.concat(response.data.items.map(x => ({
-            teacher: find('S', x.description) || cdata[0],
-            start: x.start.dateTime,
-            end: x.end.dateTime,
-            summary: x.summary,
-            address: x.location.startsWith("http") ? x.location.substring(0, x.location.indexOf('?')).replace('/s/','/j/') : x.location,
-            location: find('L', x.description),
-            substitute: !!find('S', x.description),
-            client: clients.find(c => c.name == find('C', x.description)) ? clients.find(c => c.name == find('C', x.description)).publicName : null,
-            cancelledReason: find('I', x.description),
-            cancelled: find('I', x.description) !== undefined || find('I', x.description) == "",
-            isWebinar: x.location.startsWith("http")
-        })))
-        .filter(x => (!!x.client) || x.isWebinar);
+        events = events.concat(response.data.items.map(x => {
+            
+            console.log(x.description);
+            var location = find('L', x.description);
+            
+            var address = x.location;
+            var isWebinar = (!!location) ? location.startsWith("http") : false;
+            var client = isWebinar ? find('C', x.description) : (clients.find(c => c.name == find('C', x.description)) ? clients.find(c => c.name == find('C', x.description)).publicName : null);
+            console.log(isWebinar);
+            console.log(location);
+            console.log(client);
+            return {
+                teacher: find('S', x.description) || cdata[0],
+                start: x.start.dateTime,
+                end: x.end.dateTime,
+                summary: x.summary,
+                address: address,
+                location: location,
+                substitute: !!find('S', x.description),
+                client: client,
+                cancelledReason: find('I', x.description),
+                cancelled: find('I', x.description) !== undefined || find('I', x.description) == "",
+                isWebinar: isWebinar
+            };
+        }))
+        .filter(x => (!!x.client));
     }));
     
     events = events.sort((a,b) => Date.parse(a.start) - Date.parse(b.start));
