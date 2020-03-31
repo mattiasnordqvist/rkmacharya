@@ -43,7 +43,6 @@ exports.createPages = async ({ actions: { createPage } }) => {
         var response = await api.events.list({calendarId : cdata[1], singleEvents: true, timeMin: from.toISOString(), timeMax: to.toISOString(), maxResults: 1000 });
         events = events.concat(response.data.items.map(x => {
             
-            console.log(x.description);
             var location = find('L', x.description);
             var isWebinar = (!!location) ? location.startsWith("http") : false;
             var address = isWebinar ? location : x.location;
