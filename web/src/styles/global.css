@@ -26,7 +26,14 @@ body{
 
   a {
       color: #f89623;
+
   }
+
+  a.web {
+    color:lightgreen;        
+  }
+
+  
 
 .schedule{
    

@@ -67,10 +67,10 @@ function Event({ event }) {
       </div>
       <div>
       
-      {!event.isWebinar && <a href={`https://maps.google.com/?q=${event.address}`} target="_blank">
+      {!event.isWebinar && <a href={`https://maps.google.com/?q=${event.address}`} target="_blank" className={classNames({web: event.isWebinar})}> 
           {event.client} {event.location}
         </a>}
-      {event.isWebinar && <a href={event.address} target="_blank">
+      {event.isWebinar && <a href={event.address} target="_blank" className={classNames({web: event.isWebinar})}>
           {event.client} (online)
       </a>}
       </div>
