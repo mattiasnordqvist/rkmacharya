@@ -35,15 +35,15 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
 
-const uniques = function(arr) {
-  var a = []
-  for (var i = 0, l = arr.length; i < l; i++) {
-    if (a.indexOf(arr[i]) === -1 && arr[i] !== "") {
-      a.push(arr[i])
-    }
-  }
-  return a
-}
+// const uniques = function(arr) {
+//   var a = []
+//   for (var i = 0, l = arr.length; i < l; i++) {
+//     if (a.indexOf(arr[i]) === -1 && arr[i] !== "") {
+//       a.push(arr[i])
+//     }
+//   }
+//   return a
+// }
 
 const formatTime = dateTime =>
   new Date(dateTime).toLocaleTimeString("sv-SE", {
@@ -52,11 +52,11 @@ const formatTime = dateTime =>
     hour12: false,
   })
 
-function Event({ event }) {
+function Event({ event, time }) {
   var diffMs = new Date(event.end) - new Date(event.start);
   var diffMins = Math.round(diffMs / 60000);
   return (
-    <div className={classNames({ cancelled: event.cancelled, event: true, dehighlighted: event.highlighted })}>
+    <div className={classNames({ cancelled: event.cancelled, event: true, dehighlighted: new Date(event.start) < time })}>
       <div className="class-time">
         <span className="class-time-start">{formatTime(event.start)}</span>
         <span className="class-time-duration"> {diffMins} min</span>
@@ -67,45 +67,42 @@ function Event({ event }) {
       </div>
       <div>
       
-      {!event.isWebinar && <a href={`https://maps.google.com/?q=${event.address}`} target="_blank" className={classNames({web: event.isWebinar})}> 
-          {event.client} {event.location}
+      {!event.isWebinar && <a href={event.link} target="_blank" className={classNames({web: event.isWebinar})}> 
+          {event.client} {event.isWebinar ? "(online)" : event.location}
         </a>}
-      {event.isWebinar && <a href={event.address} target="_blank" className={classNames({web: event.isWebinar})}>
-          {event.client} (online)
-      </a>}
       </div>
     </div>
   )
 }
 
-const ToggleFilter = ({ toggles, onToggle }) => {
-  return (
-    <div>
-      {Object.keys(toggles).map(k => (
-        <button type="button" key={k} onClick={() => onToggle(k)}>
-          {k} - {toggles[k] ? "yes" : "no"}
-        </button>
-      ))}
-    </div>
-  )
-}
+// const ToggleFilter = ({ toggles, onToggle }) => {
+//   return (
+//     <div>
+//       {Object.keys(toggles).map(k => (
+//         <button type="button" key={k} onClick={() => onToggle(k)}>
+//           {k} - {toggles[k] ? "yes" : "no"}
+//         </button>
+//       ))}
+//     </div>
+//   )
+// }
 
 
-const createToggles = a =>
-  uniques(a).reduce((x, y) => {
-    x[y] = false
-    return x
-  }, {})
-const toggle = (toggles, k) =>
-  Object.assign(
-    {},
-    toggles,
-    (function(attr, val) {
-      var a = {}
-      a[attr] = val
-      return a
-    })(k, !toggles[k])
-  )
+// const createToggles = a =>
+//   uniques(a).reduce((x, y) => {
+//     x[y] = false
+//     return x
+//   }, {})
+// const toggle = (toggles, k) =>
+//   Object.assign(
+//     {},
+//     toggles,
+//     (function(attr, val) {
+//       var a = {}
+//       a[attr] = val
+//       return a
+//     })(k, !toggles[k])
+//   )
 const appendData = events =>
   events.map(x => ({
     ...x,
@@ -132,13 +129,25 @@ const generateDates = (startDate, endDate) => {
 const DatePart = (d) => new Date(d.setHours(0,0,0,0));
 
 const Events = props => {
+
+  const [time, setTime] = useState(new Date());
   const [offset, setOffset] = useState(0);
   const [events, setEvents] = useState(appendData(props.pageContext.events))
-  const [teacherToggles, setTeacherToggles] = useState(createToggles(events.map(x => x.teacher)))
-  const [summaryToggles, setSummaryToggles] = useState(createToggles(events.map(x => x.summary)))
-  const [locationToggles, setLocationToggles] = useState(createToggles(events.map(x => x.clientAndLocation)))
-  const [dayToggles, setDayToggles] = useState(createToggles(dayNames))
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(new Date());
+    }, 100000);
+    return () => clearInterval(interval);
+  }, []);
+
+  
+  // const [teacherToggles, setTeacherToggles] = useState(createToggles(events.map(x => x.teacher)))
+  // const [summaryToggles, setSummaryToggles] = useState(createToggles(events.map(x => x.summary)))
+  // const [locationToggles, setLocationToggles] = useState(createToggles(events.map(x => x.clientAndLocation)))
+  // const [dayToggles, setDayToggles] = useState(createToggles(dayNames))
   const dates = generateDates(DatePart(new Date()), DatePart(new Date(Math.max.apply(null, events.map((e) => e.date)))));
+
   // const [dateFilter, setDateFilter] = useState({
   //     check: (e) => e.start >= this.dates[this.active],
   //     dayNames: [0,1,2,3,4,5,6].map(x=>days[(x+todayIndex)%7]),
@@ -179,37 +188,34 @@ const Events = props => {
 
   //
   
-  const highlightEvents = events => {
-    events.forEach(e => {
-      var anyfilter = false;
-      e.highlighted = true
-      if (Object.values(teacherToggles).some(x => x)) {
-        e.highlighted &= teacherToggles[e.teacher]
-        anyfilter = true;
-      }
-      if (Object.values(summaryToggles).some(x => x)) {
-        e.highlighted &= summaryToggles[e.summary]
-        anyfilter = true;
-      }
-      if (Object.values(locationToggles).some(x => x)) {
-        e.highlighted &= locationToggles[e.clientAndLocation]
-        anyfilter = true;
-      }
-      if (Object.values(dayToggles).some(x => x)) {
-        e.highlighted &= dayToggles[e.day]
-        anyfilter = true;
-      }
+  // const highlightEvents = events => {
+  //   events.forEach(e => {
+  //     var anyfilter = false;
+  //     e.highlighted = true
+  //     if (Object.values(teacherToggles).some(x => x)) {
+  //       e.highlighted &= teacherToggles[e.teacher]
+  //       anyfilter = true;
+  //     }
+  //     if (Object.values(summaryToggles).some(x => x)) {
+  //       e.highlighted &= summaryToggles[e.summary]
+  //       anyfilter = true;
+  //     }
+  //     if (Object.values(locationToggles).some(x => x)) {
+  //       e.highlighted &= locationToggles[e.clientAndLocation]
+  //       anyfilter = true;
+  //     }
+  //     if (Object.values(dayToggles).some(x => x)) {
+  //       e.highlighted &= dayToggles[e.day]
+  //       anyfilter = true;
+  //     }
       
-      e.highlighted = !e.highlighted;
-      if(!anyfilter){
-        e.highlighted = false;
-      }
-      if(new Date(e.start) < new Date()){
-        e.highlighted = true;
-      }
-    })
-    return events
-  }
+  //     e.highlighted = !e.highlighted;
+  //     if(!anyfilter){
+  //       e.highlighted = false;
+  //     }
+  //   })
+  //   return events
+  // }
 
   return (
     <Layout>
@@ -233,8 +239,8 @@ const Events = props => {
             <div className="schedule-classes">
               {eventsOnDate.length==0 && <div className="schedule-classes-empty">No classes</div>}
               {
-              highlightEvents(eventsOnDate).map(e => (
-                <Event key={e.location + e.start} event={e}></Event>
+              eventsOnDate.map(e => (
+                <Event key={e.location + e.start} event={e} time={time}></Event>
               ))
             }
             </div>
