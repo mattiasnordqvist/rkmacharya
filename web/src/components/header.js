@@ -21,7 +21,7 @@ const Header = ({ siteTitle }) => (
     >
       <h1 style={{ margin: 0 }}>
         <a
-          href="https://rkmacharya.com/"
+          href="https://rkmyoga.com/"
           style={{
             color: `white`,
             textDecoration: `none`,
