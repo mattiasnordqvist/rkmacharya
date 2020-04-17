@@ -31,7 +31,7 @@ var find = function(what, where)
 
 exports.createPages = async ({ actions: { createPage } }) => {
 
-    var calendarsResponse = await sheetsApi.spreadsheets.values.get({spreadsheetId: databaseId, range: 'Calendars!A2:B'});
+    var calendarsResponse = await sheetsApi.spreadsheets.values.get({spreadsheetId: databaseId, range: 'Calendars!A2:D'});
     var clientsResponse = await sheetsApi.spreadsheets.values.get({spreadsheetId: databaseId, range: 'PublicSchedule!A2:B'});
     var clients = clientsResponse.data.values.map(x => ({name: x[0], publicName: x[1]}));
     var from = new Date();
@@ -39,7 +39,7 @@ exports.createPages = async ({ actions: { createPage } }) => {
     var to = new Date();
     to.setDate(to.getDate()+28);
     var events = [];
-    await Promise.all(calendarsResponse.data.values.map(async cdata => {
+    await Promise.all(calendarsResponse.data.values.filter(cdata => cdata[3].toString().toLowerCase().trim() == 'x').map(async cdata => {
         var response = await api.events.list({calendarId : cdata[1], singleEvents: true, timeMin: from.toISOString(), timeMax: to.toISOString(), maxResults: 1000 });
         events = events.concat(response.data.items.map(x => {
             
