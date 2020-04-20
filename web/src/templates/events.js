@@ -67,7 +67,7 @@ function Event({ event, time }) {
       </div>
       <div>
       
-      {!event.isWebinar && <a href={event.link} target="_blank" className={classNames({web: event.isWebinar})}> 
+      {<a href={event.link} target="_blank" className={classNames({web: event.isWebinar})}> 
           {event.client} {event.isWebinar ? "(online)" : event.location}
         </a>}
       </div>
