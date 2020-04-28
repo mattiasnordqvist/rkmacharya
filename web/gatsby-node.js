@@ -25,8 +25,9 @@ var find = function(what, where)
     return (where || "")
         .split(/\n|\r|(<br>)/)
         .filter(x => !!x)
-        .filter(x => x.trim().startsWith(what+":"))
-        .map(x => x.trim().substring(2).trim()).shift();
+        .map(x => x.replace(/&nbsp;/g,'').trim())
+        .filter(x => x.startsWith(what+":"))
+        .map(x => x.substring(2).trim()).shift();
 }
 
 exports.createPages = async ({ actions: { createPage } }) => {
@@ -42,10 +43,9 @@ exports.createPages = async ({ actions: { createPage } }) => {
     await Promise.all(calendarsResponse.data.values.filter(cdata => cdata[3].toString().toLowerCase().trim() == 'x').map(async cdata => {
         var response = await api.events.list({calendarId : cdata[1], singleEvents: true, timeMin: from.toISOString(), timeMax: to.toISOString(), maxResults: 1000 });
         events = events.concat(response.data.items.map(x => {
-            
             var location = find('L', x.description);
-            var isWebinar = (!!location) ? location.startsWith("http") : false;
-            var link = isWebinar ? location : `https://maps.google.com/?q=${x.location}`;
+            var isWebinar = (!!location) ? location.replace(/(<a.*?>)|(<\/a>)/g,'').startsWith('http') : false;
+            var link = isWebinar ? location.replace(/(<a.*?>)|(<\/a>)/g,'') : `https://maps.google.com/?q=${x.location}`;
             var client = isWebinar ? find('C', x.description) : (clients.find(c => c.name == find('C', x.description)) ? clients.find(c => c.name == find('C', x.description)).publicName : null);
             return {
                 teacher: find('S', x.description) || cdata[0],
