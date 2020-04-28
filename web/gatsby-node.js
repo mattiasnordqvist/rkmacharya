@@ -43,6 +43,9 @@ exports.createPages = async ({ actions: { createPage } }) => {
     await Promise.all(calendarsResponse.data.values.filter(cdata => cdata[3].toString().toLowerCase().trim() == 'x').map(async cdata => {
         var response = await api.events.list({calendarId : cdata[1], singleEvents: true, timeMin: from.toISOString(), timeMax: to.toISOString(), maxResults: 1000 });
         events = events.concat(response.data.items.map(x => {
+            
+            var book = !!find('B', x.description) ? find('B', x.description).replace(/(<a.*?>)|(<\/a>)/g,'') : undefined;
+            var pay = !!find('E', x.description) ? find('E', x.description).replace(/(<a.*?>)|(<\/a>)/g,'') : undefined;
             var location = find('L', x.description);
             var isWebinar = (!!location) ? location.replace(/(<a.*?>)|(<\/a>)/g,'').startsWith('http') : false;
             var link = isWebinar ? location.replace(/(<a.*?>)|(<\/a>)/g,'') : `https://maps.google.com/?q=${x.location}`;
@@ -58,7 +61,9 @@ exports.createPages = async ({ actions: { createPage } }) => {
                 client: client,
                 cancelledReason: find('I', x.description),
                 cancelled: find('I', x.description) !== undefined || find('I', x.description) == "",
-                isWebinar: isWebinar
+                isWebinar: isWebinar,
+                book: book,
+                pay: pay
             };
         }))
         .filter(x => (!!x.client));

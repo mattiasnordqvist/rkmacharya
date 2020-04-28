@@ -70,6 +70,12 @@ function Event({ event, time }) {
       {<a href={event.link} target="_blank" className={classNames({web: event.isWebinar})}> 
           {event.client} {event.isWebinar ? "(online)" : event.location}
         </a>}
+      <div>
+      {event.book && <a href={event.book} target="_blank">Book</a>}
+      </div>
+      <div>
+      {event.pay && <a href={event.pay} target="_blank">Pay</a>}
+      </div>
       </div>
     </div>
   )
