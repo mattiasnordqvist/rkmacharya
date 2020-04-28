@@ -84,7 +84,9 @@ body{
     font-size: 0.6rem;
     position: relative;
 }
-
+.class-note{
+    text-align: right;
+}
 .class-summary{
     display: flex;
     -webkit-box-pack: justify;

@@ -57,6 +57,7 @@ function Event({ event, time }) {
   var diffMins = Math.round(diffMs / 60000);
   return (
     <div className={classNames({ cancelled: event.cancelled, event: true, dehighlighted: new Date(event.start) < time })}>
+      {event.note && <div className="class-note">{event.note}</div>}
       <div className="class-time">
         <span className="class-time-start">{formatTime(event.start)}</span>
         <span className="class-time-duration"> {diffMins} min</span>
@@ -77,7 +78,6 @@ function Event({ event, time }) {
           <div>
             {event.donate && <a href={event.donate} target="_blank">Donate</a>}
           </div>
-          {event.note && <div>{event.note}</div>}
       </div>
     </div>
   )
