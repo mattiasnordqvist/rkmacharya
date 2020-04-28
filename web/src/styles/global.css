@@ -90,6 +90,10 @@ body{
     -webkit-box-pack: justify;
     justify-content: space-between;
 }
+
+.class-location{
+    margin-top: 1em;
+}
 .class-summary-text{
 
 }
