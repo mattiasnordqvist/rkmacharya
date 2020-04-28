@@ -74,6 +74,9 @@ function Event({ event, time }) {
           <div>
             {event.pay && <a href={event.pay} target="_blank">Pay</a>}
           </div>
+          <div>
+            {event.donate && <a href={event.donate} target="_blank">Donate</a>}
+          </div>
           {event.note && <div>{event.note}</div>}
       </div>
     </div>

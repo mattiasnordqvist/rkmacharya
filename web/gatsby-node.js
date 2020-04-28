@@ -46,6 +46,7 @@ exports.createPages = async ({ actions: { createPage } }) => {
             
             var book = !!find('B', x.description) ? find('B', x.description).replace(/(<a.*?>)|(<\/a>)/g,'') : undefined;
             var pay = !!find('E', x.description) ? find('E', x.description).replace(/(<a.*?>)|(<\/a>)/g,'') : undefined;
+            var pay = !!find('D', x.description) ? find('D', x.description).replace(/(<a.*?>)|(<\/a>)/g,'') : undefined;
             var note = find('N', x.description);
             var location = find('L', x.description);
             var isWebinar = (!!location) ? location.replace(/(<a.*?>)|(<\/a>)/g,'').startsWith('http') : false;
@@ -65,6 +66,7 @@ exports.createPages = async ({ actions: { createPage } }) => {
                 isWebinar: isWebinar,
                 book: book,
                 pay: pay,
+                donate: donate,
                 note: note
             };
         }))
