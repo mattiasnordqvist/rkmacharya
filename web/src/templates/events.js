@@ -31,19 +31,18 @@ const Popup = ({event, closePopup}) => {
         <div className='popup_inner'>
     <h1>{event.summary} - {new Date(event.start).toLocaleString()}</h1>
           <div id="booking">
-            <form name="booking" method="POST" onSubmit={handleSubmit}  data-netlify="true"
-                data-netlify-honeypot="bot-field">
+            <form name="booking" method="POST" onSubmit={handleSubmit} >
               <input type="hidden" name="class" value={event.summary} />
               <input type="hidden" name="date" value={new Date(event.start).getFullYear()+"-"+new Date(event.start).getMonth()+"-"+new Date(event.start).getDate()}/>
               <input type="hidden" name="time" value={new Date(event.start).getHours()+":"+new Date(event.start).getMinutes()}/>
                 <p>
-                  <label>Name: <input type="text" name="name" /></label>   
+                  <label>Name: <input type="text" name="name" required/></label>   
                 </p>
                 <p>
-                  <label>Email: <input type="email" name="email" /></label>
+                  <label>Email: <input type="email" name="email" required/></label>
                 </p>
                 <p>
-                  <label>Payment method: <select name="payment[]" multiple>
+                  <label>Payment method: <select name="payment[]" required>
                     <option value="firstTime">First time trial</option>
                     <option value="dropin">Drop In</option>
                     <option value="classcard">10 classcard</option>
@@ -130,16 +129,7 @@ function Event({ event, time, select }) {
       <div className="class-location">
           {<a href={event.link} target="_blank" className={classNames({web: event.isWebinar})}> 
           {event.client} {event.isWebinar ? "(online)" : event.location}</a>}
-          {event.book && <button onClick={() => select()}>Book</button>}
-          {/* <div>
-            {event.book && <a href={event.book} target="_blank">Book</a>}
-          </div>
-          <div>
-            {event.pay && <a href={event.pay} target="_blank">Pay</a>}
-          </div>
-          <div>
-            {event.donate && <a href={event.donate} target="_blank">Donate</a>}
-          </div> */}
+          {event.book && !event.cancelled && new Date(event.start) > time && <button onClick={() => select()}>Book</button>}
       </div>
     </div>
   )

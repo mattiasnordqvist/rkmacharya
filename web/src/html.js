@@ -22,6 +22,7 @@ export default function HTML(props) {
           dangerouslySetInnerHTML={{ __html: props.body }}
         />
         {props.postBodyComponents}
+        {/* A little helper for netlify */}
         <form name="booking" method="POST"  data-netlify="true"
           data-netlify-honeypot="bot-field" hidden>
           <input type="hidden" name="class" />
