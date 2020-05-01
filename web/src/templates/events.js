@@ -29,7 +29,8 @@ const Popup = ({event, closePopup}) => {
     return (
       <div className='popup'>
         <div className='popup_inner'>
-    <h1>{event.summary} - {new Date(event.start).toLocaleString()}</h1>
+    <h1>{event.summary}</h1>
+    <h3>{new Date(event.start).toDateString()} {new Date(event.start).toLocaleString([], {hour: '2-digit', minute:'2-digit'})}</h3>
           <div id="booking">
             <form name="booking" method="POST" onSubmit={handleSubmit} >
               <input type="hidden" name="class" value={event.summary} />
