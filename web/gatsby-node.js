@@ -63,8 +63,6 @@ exports.createPages = async ({ actions: { createPage } }) => {
                 cancelled: find('I', x.description) !== undefined || find('I', x.description) == "",
                 isWebinar: isWebinar,
                 book: book,
-                pay: pay,
-                donate: donate,
                 note: note
             };
         }))
