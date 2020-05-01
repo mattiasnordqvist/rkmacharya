@@ -5,44 +5,59 @@ import nextArrow from "../images/next.png"
 var classNames = require("classnames")
 
 
-class Popup extends React.Component {
-  render() {
+const Popup = ({event, closePopup}) => {
+
+    const handleSubmit = event => {
+      event.preventDefault();
+      let f = document.querySelector("#booking form");
+      const formData = new FormData(f);
+      fetch(f.getAttribute("action"), 
+      {
+        method:'POST',
+        headers: {
+          'Accept': 'application/x-www-form-urlencoded;charset=UTF-8',
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        },
+        body: new URLSearchParams(formData).toString()
+      });
+    };
+
     return (
       <div className='popup'>
         <div className='popup_inner'>
-    <h1>{this.props.event.summary} - {new Date(this.props.event.start).toLocaleString()}</h1>
-          
-          <form name="booking" method="POST" data-netlify="true">
-            <input type="hidden" name="class" value={this.props.event.summary} />
-            <input type="hidden" name="date" value={new Date(this.props.event.start).getFullYear()+"-"+new Date(this.props.event.start).getMonth()+"-"+new Date(this.props.event.start).getDate()}/>
-            <input type="hidden" name="time" value={new Date(this.props.event.start).getHours()+":"+new Date(this.props.event.start).getMinutes()}/>
-              <p>
-                <label>Name: <input type="text" name="name" /></label>   
-              </p>
-              <p>
-                <label>Email: <input type="email" name="email" /></label>
-              </p>
-              <p>
-                <label>Payment method: <select name="payment[]" multiple>
-                  <option value="firstTime">First time trial</option>
-                  <option value="dropin">Drop In</option>
-                  <option value="classcard">10 classcard</option>
-                  <option value="member">Monthly donator</option>
-                </select></label>
-              </p>
-              <p>
-                <label>Message: <textarea name="message"></textarea></label>
-              </p>
-              <p>
-                <button type="submit">Book</button>
-                <button onClick={this.props.closePopup}>Cancel</button>
-              </p>
-            </form>
+    <h1>{event.summary} - {new Date(event.start).toLocaleString()}</h1>
+          <div id="booking">
+            <form name="booking" method="POST" data-netlify="true" action="#/book" onSubmit={handleSubmit}>
+              <input type="hidden" name="class" value={event.summary} />
+              <input type="hidden" name="date" value={new Date(event.start).getFullYear()+"-"+new Date(event.start).getMonth()+"-"+new Date(event.start).getDate()}/>
+              <input type="hidden" name="time" value={new Date(event.start).getHours()+":"+new Date(event.start).getMinutes()}/>
+                <p>
+                  <label>Name: <input type="text" name="name" /></label>   
+                </p>
+                <p>
+                  <label>Email: <input type="email" name="email" /></label>
+                </p>
+                <p>
+                  <label>Payment method: <select name="payment[]" multiple>
+                    <option value="firstTime">First time trial</option>
+                    <option value="dropin">Drop In</option>
+                    <option value="classcard">10 classcard</option>
+                    <option value="member">Monthly donator</option>
+                  </select></label>
+                </p>
+                <p>
+                  <label>Message: <textarea name="message"></textarea></label>
+                </p>
+                <p>
+                  <button type="submit">Book</button>
+                  <button onClick={closePopup}>Cancel</button>
+                </p>
+              </form>
+          </div>
         </div>
       </div>
     );
-  }
-}
+ }
 
 const getDayIndex = (day) => (day+6)%7;
 
