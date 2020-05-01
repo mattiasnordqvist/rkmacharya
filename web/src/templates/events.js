@@ -52,10 +52,11 @@ const Popup = ({event, closePopup}) => {
                 <p>
                   <label>Message: <textarea name="message"></textarea></label>
                 </p>
-                <p>
+                <span>
                   <button type="submit">Book</button>
+                  </span><span>
                   <button onClick={closePopup}>Cancel</button>
-                </p>
+                  </span>
               </form>
           </div>
         </div>
@@ -127,10 +128,14 @@ function Event({ event, time, select }) {
         <span className="class-summary-teacher">{event.teacher}</span>
       </div>
       <div className="class-location">
+        <span>
           {<a href={event.link} target="_blank" className={classNames({web: event.isWebinar})}> 
           {event.client} {event.isWebinar ? "(online)" : event.location}</a>}
-          {event.book && !event.cancelled && new Date(event.start) > time && <button onClick={() => select()}>Book</button>}
-      </div>
+          </span>
+          <span class="class-book">
+           {event.book && !event.cancelled && new Date(event.start) > time && <button onClick={() => select()}>Book</button>}
+        </span>
+        </div>
     </div>
   )
 }
