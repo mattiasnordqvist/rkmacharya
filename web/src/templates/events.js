@@ -3,6 +3,47 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import nextArrow from "../images/next.png"
 var classNames = require("classnames")
+
+
+class Popup extends React.Component {
+  render() {
+    return (
+      <div className='popup'>
+        <div className='popup_inner'>
+    <h1>{this.props.event.summary} - {new Date(this.props.event.start).toLocaleString()}</h1>
+          
+          <form name="booking" method="POST" data-netlify="true">
+            <input type="hidden" name="class" value={this.props.event.summary} />
+            <input type="hidden" name="date" value={new Date(this.props.event.start).getFullYear()+"-"+new Date(this.props.event.start).getMonth()+"-"+new Date(this.props.event.start).getDate()}/>
+            <input type="hidden" name="time" value={new Date(this.props.event.start).getHours()+":"+new Date(this.props.event.start).getMinutes()}/>
+              <p>
+                <label>Name: <input type="text" name="name" /></label>   
+              </p>
+              <p>
+                <label>Email: <input type="email" name="email" /></label>
+              </p>
+              <p>
+                <label>Payment method: <select name="payment[]" multiple>
+                  <option value="firstTime">First time trial</option>
+                  <option value="dropin">Drop In</option>
+                  <option value="classcard">10 classcard</option>
+                  <option value="member">Monthly donator</option>
+                </select></label>
+              </p>
+              <p>
+                <label>Message: <textarea name="message"></textarea></label>
+              </p>
+              <p>
+                <button type="submit">Book</button>
+                <button onClick={this.props.closePopup}>Cancel</button>
+              </p>
+            </form>
+        </div>
+      </div>
+    );
+  }
+}
+
 const getDayIndex = (day) => (day+6)%7;
 
 var todayIndex = getDayIndex(new Date().getDay());
@@ -52,7 +93,7 @@ const formatTime = dateTime =>
     hour12: false,
   })
 
-function Event({ event, time }) {
+function Event({ event, time, select }) {
   var diffMs = new Date(event.end) - new Date(event.start);
   var diffMins = Math.round(diffMs / 60000);
   return (
@@ -69,7 +110,8 @@ function Event({ event, time }) {
       <div className="class-location">
           {<a href={event.link} target="_blank" className={classNames({web: event.isWebinar})}> 
           {event.client} {event.isWebinar ? "(online)" : event.location}</a>}
-          <div>
+          {event.book && <button onClick={() => select()}>Book</button>}
+          {/* <div>
             {event.book && <a href={event.book} target="_blank">Book</a>}
           </div>
           <div>
@@ -77,7 +119,7 @@ function Event({ event, time }) {
           </div>
           <div>
             {event.donate && <a href={event.donate} target="_blank">Donate</a>}
-          </div>
+          </div> */}
       </div>
     </div>
   )
@@ -138,9 +180,11 @@ const DatePart = (d) => new Date(d.setHours(0,0,0,0));
 
 const Events = props => {
 
+  const [popupVisible, setPopupVisible] = useState(false);
   const [time, setTime] = useState(new Date());
   const [offset, setOffset] = useState(0);
   const [events, setEvents] = useState(appendData(props.pageContext.events))
+  const [selectedEvent, setSelectedEvent] = useState({});
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -149,7 +193,7 @@ const Events = props => {
     return () => clearInterval(interval);
   }, []);
 
-  
+    
   // const [teacherToggles, setTeacherToggles] = useState(createToggles(events.map(x => x.teacher)))
   // const [summaryToggles, setSummaryToggles] = useState(createToggles(events.map(x => x.summary)))
   // const [locationToggles, setLocationToggles] = useState(createToggles(events.map(x => x.clientAndLocation)))
@@ -232,6 +276,13 @@ const Events = props => {
       <ToggleFilter toggles={summaryToggles} onToggle={k => setSummaryToggles(toggle(summaryToggles, k))}></ToggleFilter>
       <ToggleFilter toggles={locationToggles} onToggle={k => setLocationToggles(toggle(locationToggles, k))}></ToggleFilter>
       <ToggleFilter toggles={dayToggles} onToggle={k => setDayToggles(toggle(dayToggles, k))}></ToggleFilter> */}
+      {popupVisible && 
+      <Popup
+        text='Close Me'
+        closePopup={() => setPopupVisible(false)}
+        event={selectedEvent}
+      />
+      }
       <section className="schedule">
         <div className="schedule-week">
         {offset>0 && <div onClick={() => setOffset(offset-1)} className="day-nav day-nav-prev"><img className="noselect" src={nextArrow}></img></div>}
@@ -248,7 +299,7 @@ const Events = props => {
               {eventsOnDate.length==0 && <div className="schedule-classes-empty">No classes</div>}
               {
               eventsOnDate.map(e => (
-                <Event key={e.location + e.start} event={e} time={time}></Event>
+                <Event key={e.location + e.start} event={e} time={time} select={() => {setSelectedEvent(e); setPopupVisible(true);}}></Event>
               ))
             }
             </div>
