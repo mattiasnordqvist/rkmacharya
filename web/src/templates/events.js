@@ -43,10 +43,10 @@ const Popup = ({event, closePopup}) => {
                 </p>
                 <p>
                   <label>Payment method: <select name="payment[]" required>
-                    <option value="firstTime">First time trial</option>
-                    <option value="dropin">Drop In</option>
-                    <option value="classcard">10 classcard</option>
-                    <option value="member">Monthly donator</option>
+                  <option value="dropin">Drop In</option>
+                  <option value="classcard">10 classcard</option>
+                  <option value="member">Monthly donator</option>
+                  <option value="firstTime">First time trial</option>
                   </select></label>
                 </p>
                 <p>
