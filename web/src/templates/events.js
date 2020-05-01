@@ -9,9 +9,10 @@ const Popup = ({event, closePopup}) => {
 
     const handleSubmit = event => {
       event.preventDefault();
-      let f = document.querySelector("#booking form");
+      let f = event.target;
       const formData = new FormData(f);
-      fetch(f.getAttribute("action"), 
+      formData.append('form-name', f.getAttribute('name'));
+      fetch('/', 
       {
         method:'POST',
         headers: {
@@ -31,7 +32,8 @@ const Popup = ({event, closePopup}) => {
         <div className='popup_inner'>
     <h1>{event.summary} - {new Date(event.start).toLocaleString()}</h1>
           <div id="booking">
-            <form name="booking" method="POST" action="/#book" onSubmit={handleSubmit}>
+            <form name="booking" method="POST" onSubmit={handleSubmit}  data-netlify="true"
+                data-netlify-honeypot="bot-field">
               <input type="hidden" name="class" value={event.summary} />
               <input type="hidden" name="date" value={new Date(event.start).getFullYear()+"-"+new Date(event.start).getMonth()+"-"+new Date(event.start).getDate()}/>
               <input type="hidden" name="time" value={new Date(event.start).getHours()+":"+new Date(event.start).getMinutes()}/>
