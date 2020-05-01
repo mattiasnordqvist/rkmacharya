@@ -16,8 +16,7 @@ const Popup = ({event, closePopup}) => {
       {
         method:'POST',
         headers: {
-          'Accept': 'application/x-www-form-urlencoded;charset=UTF-8',
-          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: new URLSearchParams(formData).toString()
       }).then(res => {if(res){
