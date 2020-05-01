@@ -19,7 +19,11 @@ const Popup = ({event, closePopup}) => {
           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
         },
         body: new URLSearchParams(formData).toString()
-      });
+      }).then(res => {if(res){
+        alert('Thank you');
+        closePopup();
+      }});
+      
     };
 
     return (
@@ -27,7 +31,7 @@ const Popup = ({event, closePopup}) => {
         <div className='popup_inner'>
     <h1>{event.summary} - {new Date(event.start).toLocaleString()}</h1>
           <div id="booking">
-            <form name="booking" method="POST" data-netlify="true" action="#/book" onSubmit={handleSubmit}>
+            <form name="booking" method="POST" data-netlify="true" action="/#book" onSubmit={handleSubmit}>
               <input type="hidden" name="class" value={event.summary} />
               <input type="hidden" name="date" value={new Date(event.start).getFullYear()+"-"+new Date(event.start).getMonth()+"-"+new Date(event.start).getDate()}/>
               <input type="hidden" name="time" value={new Date(event.start).getHours()+":"+new Date(event.start).getMinutes()}/>
