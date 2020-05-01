@@ -229,12 +229,22 @@ body{
         z-index:1100;
       }
       .popup_inner {
+        padding: 1em;
         position: absolute;
-        left: 25%;
-        right: 25%;
-        top: 25%;
-        bottom: 25%;
+        left: 0%;
+        right: 0%;
+        top: 0%;
+        bottom: 0%;
         margin: auto;
         background: white;
         z-index:1100;
       }
+
+    @media (min-width: 48em){
+      .popup_inner {
+        left: 25%;
+        right: 25%;
+        top: 25%;
+        bottom: 25%;
+      }
+    }
