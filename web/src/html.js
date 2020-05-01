@@ -31,10 +31,10 @@ export default function HTML(props) {
             <label>Name: <input type="text" name="name" /></label>   
             <label>Email: <input type="email" name="email" /></label>
             <label>Payment method: <select name="payment[]" multiple>
-              <option value="firstTime">First time trial</option>
               <option value="dropin">Drop In</option>
               <option value="classcard">10 classcard</option>
               <option value="member">Monthly donator</option>
+              <option value="firstTime">First time trial</option>
             </select></label>
             <label>Message: <textarea name="message"></textarea></label>
           </form>
