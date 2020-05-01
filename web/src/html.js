@@ -22,6 +22,21 @@ export default function HTML(props) {
           dangerouslySetInnerHTML={{ __html: props.body }}
         />
         {props.postBodyComponents}
+        <form name="booking" method="POST"  data-netlify="true"
+          data-netlify-honeypot="bot-field" hidden>
+          <input type="hidden" name="class" />
+          <input type="hidden" name="date" />
+          <input type="hidden" name="time" />
+            <label>Name: <input type="text" name="name" /></label>   
+            <label>Email: <input type="email" name="email" /></label>
+            <label>Payment method: <select name="payment[]" multiple>
+              <option value="firstTime">First time trial</option>
+              <option value="dropin">Drop In</option>
+              <option value="classcard">10 classcard</option>
+              <option value="member">Monthly donator</option>
+            </select></label>
+            <label>Message: <textarea name="message"></textarea></label>
+          </form>
       </body>
     </html>
   )
