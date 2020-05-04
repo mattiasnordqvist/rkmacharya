@@ -11,7 +11,8 @@ const formatTime = dateTime =>
 const Event = ({ event, time, select }) => {
   console.log(new Date(event.start));
   console.log(time);
-  console.log(new Date(event.start) <= time);
+  let dehighlighted = new Date(event.start) <= time;
+  console.log(dehighlighted);
   var diffMs = new Date(event.end) - new Date(event.start)
   var diffMins = Math.round(diffMs / 60000)
   return (
@@ -19,7 +20,7 @@ const Event = ({ event, time, select }) => {
       className={classNames({
         cancelled: event.cancelled,
         event: true,
-        dehighlighted: new Date(event.start) <= time,
+        dehighlighted: dehighlighted,
       })}
     >
       {event.note && <div className="class-note">{event.note}</div>}
