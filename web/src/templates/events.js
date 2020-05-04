@@ -3,7 +3,6 @@ import Layout from "../components/layout"
 import Event from "../components/event"
 import SEO from "../components/seo"
 import nextArrow from "../images/next.png"
-var classNames = require("classnames")
 
 
 const Popup = ({event, closePopup}) => {
@@ -164,14 +163,14 @@ const generateDates = (startDate, endDate) => {
 
 const DatePart = (d) => new Date(d.setHours(0,0,0,0));
 
-const Events = props => {
+const Events = ({pageContext}) => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [time, setTime] = useState(new Date());
   const [offset, setOffset] = useState(0);
-  const [events, setEvents] = useState(appendData(props.pageContext.events))
+  const [events, setEvents] = useState(appendData(pageContext.events))
   const [selectedEvent, setSelectedEvent] = useState({});
 
- useEffect(() => {setTime(new Date())},[]);
+ useEffect(() => {console.log('st');setTime(new Date());},[]);
     
   // const [teacherToggles, setTeacherToggles] = useState(createToggles(events.map(x => x.teacher)))
   // const [summaryToggles, setSummaryToggles] = useState(createToggles(events.map(x => x.summary)))
