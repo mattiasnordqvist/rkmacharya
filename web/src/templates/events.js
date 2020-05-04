@@ -170,7 +170,7 @@ const Events = ({pageContext}) => {
   const [events, setEvents] = useState(appendData(pageContext.events))
   const [selectedEvent, setSelectedEvent] = useState({});
 
- useEffect(() => {console.log('st');setTime(new Date());},[]);
+ useEffect(() => {console.log(new Date().toString());setTime(new Date());},[]);
     
   // const [teacherToggles, setTeacherToggles] = useState(createToggles(events.map(x => x.teacher)))
   // const [summaryToggles, setSummaryToggles] = useState(createToggles(events.map(x => x.summary)))

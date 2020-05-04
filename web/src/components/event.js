@@ -16,7 +16,7 @@ const Event = ({ event, time, select }) => {
       className={classNames({
         cancelled: event.cancelled,
         event: true,
-        dehighlighted: new Date(event.start) < time,
+        dehighlighted: new Date(event.start) <= time,
       })}
     >
       {event.note && <div className="class-note">{event.note}</div>}
