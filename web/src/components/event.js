@@ -10,7 +10,8 @@ const formatTime = dateTime =>
 
 const Event = ({ event, time, select }) => {
   console.log(new Date(event.start));
-  console.log(new Date(time));
+  console.log(time);
+  console.log(new Date(event.start) <= time);
   var diffMs = new Date(event.end) - new Date(event.start)
   var diffMins = Math.round(diffMs / 60000)
   return (
