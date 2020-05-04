@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import Layout from "../components/layout"
+import Event from "../components/event"
 import SEO from "../components/seo"
 import nextArrow from "../images/next.png"
 var classNames = require("classnames")
@@ -107,39 +108,8 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 //   return a
 // }
 
-const formatTime = dateTime =>
-  new Date(dateTime).toLocaleTimeString("sv-SE", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  })
 
-function Event({ event, time, select }) {
-  var diffMs = new Date(event.end) - new Date(event.start);
-  var diffMins = Math.round(diffMs / 60000);
-  return (
-    <div className={classNames({ cancelled: event.cancelled, event: true, dehighlighted: new Date(event.start) < time })}>
-      {event.note && <div className="class-note">{event.note}</div>}
-      <div className="class-time">
-        <span className="class-time-start">{formatTime(event.start)}</span>
-        <span className="class-time-duration"> {diffMins} min</span>
-      </div>
-      <div className="class-summary">
-        <span className="class-summary-text">{event.summary}</span>
-        <span className="class-summary-teacher">{event.teacher}</span>
-      </div>
-      <div className="class-location">
-        <span>
-          {<a href={event.link} target="_blank" className={classNames({web: event.isWebinar})}> 
-          {event.client} {event.isWebinar ? "(online)" : event.location}</a>}
-          </span>
-          <span className="class-book">
-           {event.book && !event.cancelled && new Date(event.start) > time && <button onClick={() => select()}>Book</button>}
-        </span>
-        </div>
-    </div>
-  )
-}
+
 
 // const ToggleFilter = ({ toggles, onToggle }) => {
 //   return (
@@ -219,25 +189,6 @@ const Events = props => {
   //     }),
   //     active: 0})
   // var dateFilter = ;
-
-  // componentDidMount() {
-  //   if(localStorage.getItem("filter"))
-  //   {
-  //     var newFilter = this.state.filter;
-  //     var oldFilter = JSON.parse(localStorage.getItem("filter"));
-  //     Object.keys(newFilter).forEach(x =>
-  //     {
-  //       Object.keys(newFilter[x]).forEach(y => {
-  //         if(oldFilter.hasOwnProperty(x) && newFilter[x].hasOwnProperty(y)){
-  //           newFilter[x][y] = oldFilter[x][y];
-  //         }
-  //       })
-  //     });
-  //     localStorage.setItem("filter", JSON.stringify(newFilter));
-  //     this.setState({filter:newFilter});
-  //   }
-  //   this.filterEvents();
-  // }
 
   // toggleFilter = (e, where, what) => {
   //   var filter = { ...this.state.filter }
