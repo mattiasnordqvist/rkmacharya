@@ -133,7 +133,7 @@ function Event({ event, time, select }) {
           {<a href={event.link} target="_blank" className={classNames({web: event.isWebinar})}> 
           {event.client} {event.isWebinar ? "(online)" : event.location}</a>}
           </span>
-          <span class="class-book">
+          <span className="class-book">
            {event.book && !event.cancelled && new Date(event.start) > time && <button onClick={() => select()}>Book</button>}
         </span>
         </div>
@@ -195,20 +195,13 @@ const generateDates = (startDate, endDate) => {
 const DatePart = (d) => new Date(d.setHours(0,0,0,0));
 
 const Events = props => {
-
   const [popupVisible, setPopupVisible] = useState(false);
   const [time, setTime] = useState(new Date());
   const [offset, setOffset] = useState(0);
   const [events, setEvents] = useState(appendData(props.pageContext.events))
   const [selectedEvent, setSelectedEvent] = useState({});
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(new Date());
-    }, 100000);
-    return () => clearInterval(interval);
-  }, []);
-
+ useEffect(() => {setTime(new Date())},[]);
     
   // const [teacherToggles, setTeacherToggles] = useState(createToggles(events.map(x => x.teacher)))
   // const [summaryToggles, setSummaryToggles] = useState(createToggles(events.map(x => x.summary)))
@@ -284,7 +277,6 @@ const Events = props => {
   //   })
   //   return events
   // }
-
   return (
     <Layout>
       <SEO title="Home"></SEO>
