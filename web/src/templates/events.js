@@ -165,12 +165,10 @@ const DatePart = (d) => new Date(d.setHours(0,0,0,0));
 
 const Events = ({pageContext}) => {
   const [popupVisible, setPopupVisible] = useState(false);
-  const [time, setTime] = useState(new Date());
   const [offset, setOffset] = useState(0);
   const [events, setEvents] = useState(appendData(pageContext.events))
   const [selectedEvent, setSelectedEvent] = useState({});
 
- useEffect(() => {console.log(new Date().toString());setTime(new Date());},[]);
     
   // const [teacherToggles, setTeacherToggles] = useState(createToggles(events.map(x => x.teacher)))
   // const [summaryToggles, setSummaryToggles] = useState(createToggles(events.map(x => x.summary)))
@@ -245,10 +243,9 @@ const Events = ({pageContext}) => {
         <div className="schedule-week">
         {offset>0 && <div onClick={() => setOffset(offset-1)} className="day-nav day-nav-prev"><img className="noselect" src={nextArrow}></img></div>}
         {dates.slice(offset,7+offset).map((d) => {
-          var eventsOnDate = events.filter(e => e.date.getTime() == d.getTime())
+          var eventsOnDate = events.filter(e => { return e.date.getTime() == d.getTime();})
           return (
           <div className="schedule-column" key={d.toString()}>
-            
             <div className="schedule-date">
               <span className="date-box">{d.getDate()} {monthNames[d.getMonth()]}</span>
               <span className="day-box">{getDayName(d)}</span>
@@ -257,7 +254,7 @@ const Events = ({pageContext}) => {
               {eventsOnDate.length==0 && <div className="schedule-classes-empty">No classes</div>}
               {
               eventsOnDate.map(e => (
-                <Event key={e.location + e.start} event={e} time={time} select={() => {setSelectedEvent(e); setPopupVisible(true);}}></Event>
+                <Event key={e.location + e.start.toString()} event={e} select={() => {setSelectedEvent(e); setPopupVisible(true);}}></Event>
               ))
             }
             </div>

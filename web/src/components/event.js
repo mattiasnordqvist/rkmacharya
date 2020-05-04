@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 var classNames = require("classnames")
 
 const formatTime = dateTime =>
@@ -8,19 +8,21 @@ const formatTime = dateTime =>
     hour12: false,
   });
 
-const Event = ({ event, time, select }) => {
-  console.log(new Date(event.start));
-  console.log(time);
-  let dehighlighted = new Date(event.start) <= time;
-  console.log(dehighlighted);
+const Event = ({ event, select }) => {
   var diffMs = new Date(event.end) - new Date(event.start)
   var diffMins = Math.round(diffMs / 60000)
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {setTime(new Date());},[]);
+
   return (
     <div
       className={classNames({
         cancelled: event.cancelled,
         event: true,
-        dehighlighted: dehighlighted,
+        dehighlighted: new Date(event.start) <= time,
       })}
     >
       {event.note && <div className="class-note">{event.note}</div>}
