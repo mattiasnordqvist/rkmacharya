@@ -46,6 +46,7 @@ exports.createPages = async ({ actions: { createPage } }) => {
             
             var book = !!find('B', x.description) ? find('B', x.description).replace(/(<a.*?>)|(<\/a>)/g,'') : undefined;
             var note = find('N', x.description);
+            var hasNote = !!find('N', x.description);
             var location = find('L', x.description);
             var isWebinar = (!!location) ? location.replace(/(<a.*?>)|(<\/a>)/g,'').startsWith('http') : false;
             var link = isWebinar ? location.replace(/(<a.*?>)|(<\/a>)/g,'') : `https://maps.google.com/?q=${x.location}`;
@@ -63,7 +64,8 @@ exports.createPages = async ({ actions: { createPage } }) => {
                 cancelled: find('I', x.description) !== undefined || find('I', x.description) == "",
                 isWebinar: isWebinar,
                 book: book,
-                note: note
+                note: note,
+                hasNote: hasNote,
             };
         }))
         .filter(x => (!!x.client));
