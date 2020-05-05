@@ -31,7 +31,7 @@ const Event = ({ event, select }) => {
         dehighlighted: dh
       })}
     >
-      {event.hasNote && <div className="class-note">{event.note}</div>}
+      {event.hasNote && (<div className="class-note">{event.note}</div>)}
       <div className="class-time">
         <span className="class-time-start">{formatTime(event.start)}</span>
         <span className="class-time-duration"> {diffMins} min</span>
