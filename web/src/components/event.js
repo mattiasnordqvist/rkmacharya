@@ -11,18 +11,24 @@ const formatTime = dateTime =>
 const Event = ({ event, select }) => {
   var diffMs = new Date(event.end) - new Date(event.start)
   var diffMins = Math.round(diffMs / 60000)
-  const tomorrow = new Date()
-  tomorrow.setDate(tomorrow.getDate() + 1)
-  const [time, setTime] = useState(new Date());
+  const [dh, setDh] = useState(false);
 
-  useEffect(() => {setTime(new Date());},[]);
+  useEffect(() => {
+      let timer1 = setTimeout(() => setDh(new Date(event.start) <= new Date()), 0);
+
+      // this will clear Timeout when component unmount like in willComponentUnmount
+      return () => {
+        clearTimeout(timer1)
+      }
+    },
+    []);
 
   return (
     <div
       className={classNames({
         cancelled: event.cancelled,
         event: true,
-        dehighlighted: new Date(event.start) <= time,
+        dehighlighted: dh,
       })}
     >
       {event.note && <div className="class-note">{event.note}</div>}
@@ -48,7 +54,7 @@ const Event = ({ event, select }) => {
           }
         </span>
         <span className="class-book">
-          {event.book && !event.cancelled && new Date(event.start) > time && (
+          {event.book && !event.cancelled && !dh && (
             <button onClick={() => select()}>Book</button>
           )}
         </span>
